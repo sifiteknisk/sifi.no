@@ -12,12 +12,12 @@ const Navbar = () => {
   };
 
   const linkClass =
-    'block py-3 px-4 hover:bg-sifiblue hover:text-white md:py-2 md:px-4 md:rounded-lg md:inline-block border-b border-slate-200 dark:border-gray-700 last:border-0 md:border-0 transition-colors';
+    'whitespace-nowrap block py-3 px-4 hover:bg-sifiblue hover:text-white md:py-2 md:px-3 md:rounded-lg md:inline-block border-b border-slate-200 dark:border-gray-700 last:border-0 md:border-0 transition-colors flex-shrink-0';
 
   return (
     <div className="relative w-full bg-slate-100 dark:bg-gray-900 border-b-2 border-slate-200 md:border-slate-100">
       <div className="max-w-7xl mx-auto px-4 md:px-10 lg:px-16 py-3 md:py-4">
-        <div className="flex flex-row items-center justify-between">
+        <div className="flex flex-row items-center justify-between min-w-0 gap-2">
           <Link href="/" className="flex-shrink-0" onClick={() => setIsOpen(false)}>
             <picture className="w-32 md:w-auto h-20 md:h-auto px-2 block">
               <Image
@@ -30,7 +30,7 @@ const Navbar = () => {
             </picture>
           </Link>
 
-          <div className="flex items-center gap-2 md:gap-8">
+          <div className="flex items-center gap-2 md:gap-4 min-w-0 flex-shrink">
             <button
               onClick={toggleMenu}
               className="md:hidden relative w-10 h-10 rounded-lg hover:bg-slate-200 dark:hover:bg-gray-800 transition-colors flex items-center justify-center"
@@ -55,7 +55,7 @@ const Navbar = () => {
             </button>
 
             <div
-              className={`flex flex-col absolute top-full left-0 right-0 bg-slate-100 dark:bg-gray-900 border-b-2 border-slate-200 dark:border-gray-700 md:border-0 md:static md:flex md:flex-row md:items-center md:gap-8 text-lg md:text-xl font-semibold z-10 shadow-lg md:shadow-none origin-top transition-all duration-200 ease-out ${
+              className={`flex flex-col absolute top-full left-0 right-0 bg-slate-100 dark:bg-gray-900 border-b-2 border-slate-200 dark:border-gray-700 md:border-0 md:static md:flex md:flex-row md:items-center md:gap-4 md:overflow-x-auto md:min-w-0 text-lg md:text-sm lg:text-base font-semibold z-10 shadow-lg md:shadow-none origin-top transition-all duration-200 ease-out ${
                 isOpen
                   ? 'translate-y-0 opacity-100'
                   : '-translate-y-2 opacity-0 pointer-events-none md:pointer-events-auto md:translate-y-0 md:opacity-100'
