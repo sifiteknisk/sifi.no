@@ -7,102 +7,137 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 
+type BoardMember = {
+  name: string;
+  role: string;
+  image?: string;
+};
+
+type BoardYear = {
+  groupPhoto: string;
+  members: BoardMember[];
+};
+
+const styretImagePath = (year: number, fileName: string) =>
+  `/images/Styret/${year}/${fileName}`;
+const placeholderImage = '/images/spørsmål.png';
+
 // Store all boards here
-const boards = {
+const boards: Record<number, BoardYear> = {
   2025: {
-    groupPhoto: '/images/Styret/Styret25ny.jpeg',
+    groupPhoto: styretImagePath(2025, 'Styret25ny.jpeg'),
     members: [
       {
         name: 'Pernille Vannebo',
         role: 'Leder',
-        image: '/images/Styret/PernilleLeder.jpeg',
+        image: styretImagePath(2025, 'PernilleLeder.jpeg'),
       },
       {
         name: 'Tobias With Thorsen',
         role: 'Nestleder',
-        image: '/images/Styret/TobiasNestleder.jpeg',
+        image: styretImagePath(2025, 'TobiasNestleder.jpeg'),
       },
       {
         name: 'Vegard Otterlei',
         role: 'Økonomiansvarlig',
-        image: '/images/Styret/VegardØkonomi.jpeg',
+        image: styretImagePath(2025, 'VegardØkonomi.jpeg'),
       },
       {
         name: 'Magnus Økstad',
         role: 'Bedriftskontakt',
-        image: '/images/Styret/MagnusBedrift.jpeg',
+        image: styretImagePath(2025, 'MagnusBedrift.jpeg'),
       },
       {
         name: 'Julia Vister',
         role: 'PR',
-        image: '/images/Styret/JuliaPR.jpeg',
+        image: styretImagePath(2025, 'JuliaPR.jpeg'),
       },
       {
         name: 'Adrian Skansen',
         role: 'Arrangementansvarlig',
-        image: '/images/Styret/AdrianArrangement.jpeg',
+        image: styretImagePath(2025, 'AdrianArrangement.jpeg'),
       },
       {
         name: 'Ahmed Abdulahi Ahmed',
         role: 'Styremedlem',
-        image: '/images/Styret/AhmedStyremedlem.jpeg',
+        image: styretImagePath(2025, 'AhmedStyremedlem.jpeg'),
       },
       {
         name: 'Emil Johannessen',
         role: 'Styremedlem',
-        image: '/images/Styret/EmilStyremedlem.jpeg',
+        image: styretImagePath(2025, 'EmilStyremedlem.jpeg'),
       },
       {
         name: 'Sindre Vikre',
         role: 'Styremedlem',
-        image: '/images/Styret/SindreStyremedlem.jpeg',
+        image: styretImagePath(2025, 'SindreStyremedlem.jpeg'),
       },
     ],
   },
-  // "name" has to be unique
   2026: {
-    groupPhoto: '/images/Styret/Styret25.jpeg',
+    groupPhoto: styretImagePath(2026, 'styret26.jpg'),
     members: [
-      { name: 'Ny leder', role: 'Leder', image: '/images/spørsmål.png' },
+      { name: 'Birk', role: 'Leder', image: styretImagePath(2026, 'birk.jpg') },
       {
         name: 'Ny nestleder',
         role: 'Nestleder',
-        image: '/images/spørsmål.png',
+        image: placeholderImage,
       },
       {
         name: 'Ny økonomi',
         role: 'Økonomiansvarlig',
-        image: '/images/spørsmål.png',
+        image: placeholderImage,
       },
       {
         name: 'Ny bedrift',
         role: 'Bedriftskontakt',
-        image: '/images/spørsmål.png',
+        image: placeholderImage,
       },
-      { name: 'Ny pr', role: 'PR', image: '/images/spørsmål.png' },
+      { name: 'Ny pr', role: 'PR', image: placeholderImage },
       {
         name: 'Ny arr',
         role: 'Arrangementansvarlig',
-        image: '/images/spørsmål.png',
+        image: placeholderImage,
       },
       {
         name: 'Ny teknisk',
         role: 'Teknisk ansvarlig',
-        image: '/images/spørsmål.png',
+        image: placeholderImage,
       },
       {
         name: 'Ny medlem1',
         role: 'Styremedlem',
-        image: '/images/spørsmål.png',
+        image: placeholderImage,
       },
       {
         name: 'Ny medlem2',
         role: 'Styremedlem',
-        image: '/images/spørsmål.png',
+        image: placeholderImage,
       },
     ],
   },
-  // Add more years later...
+  2027: {
+    groupPhoto: placeholderImage,
+    members: [
+      { name: 'Ny leder', role: 'Leder', image: placeholderImage },
+      { name: 'Ny nestleder', role: 'Nestleder', image: placeholderImage },
+      { name: 'Ny økonomi', role: 'Økonomiansvarlig', image: placeholderImage },
+      { name: 'Ny bedrift', role: 'Bedriftskontakt', image: placeholderImage },
+      { name: 'Ny pr', role: 'PR', image: placeholderImage },
+      {
+        name: 'Ny arr',
+        role: 'Arrangementansvarlig',
+        image: placeholderImage,
+      },
+      {
+        name: 'Ny teknisk',
+        role: 'Teknisk ansvarlig',
+        image: placeholderImage,
+      },
+      { name: 'Ny medlem1', role: 'Styremedlem', image: placeholderImage },
+      { name: 'Ny medlem2', role: 'Styremedlem', image: placeholderImage },
+    ],
+  },
 };
 
 const About = () => {
@@ -152,47 +187,61 @@ const About = () => {
             opts={{ startIndex: years.indexOf(startYear) }}
           >
             <CarouselContent>
-              {Object.entries(boards).map(([year, data]) => (
-                <CarouselItem key={year}>
-                  <div className="flex flex-col items-center">
-                    <h3 className="text-xl font-bold mb-4">Styret {year}</h3>
+              {years.map((year) => {
+                const data = boards[year];
 
-                    {/* Group photo */}
-                    <div className="w-full max-w-4xl mx-auto aspect-[16/9] relative mb-6">
-                      <Image
-                        src={data.groupPhoto}
-                        alt={`Styret ${year}`}
-                        fill
-                        className="w-full rounded-lg shadow-lg object-cover"
-                      />
-                    </div>
+                return (
+                  <CarouselItem key={year}>
+                    <div className="flex flex-col items-center rounded-2xl border border-gray-200/70 dark:border-gray-700 bg-white/85 dark:bg-gray-800/80 shadow-sm p-4 sm:p-6">
+                      <h3 className="text-2xl font-bold mb-5">Styret {year}</h3>
 
-                    {/* Members grid */}
-                    <div className="w-full max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                      {data.members.map((member) => (
-                        <div
-                          key={member.name}
-                          className="flex flex-col items-center text-center bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full"
-                        >
-                          <div className="w-full aspect-[3/4] relative mb-4">
-                            <Image
-                              src={member.image}
-                              alt={member.name}
-                              fill
-                              sizes="(max-width: 768px) 100vw, 33vw"
-                              className="rounded-lg object-cover"
-                            />
+                      {/* Group photo */}
+                      <div className="w-full max-w-4xl mx-auto aspect-[16/9] relative mb-6">
+                        <Image
+                          src={data.groupPhoto}
+                          alt={`Styret ${year}`}
+                          fill
+                          className="w-full rounded-lg shadow-lg object-cover"
+                        />
+                      </div>
+
+                      {/* Members grid */}
+                      <div className="w-full max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        {data.members.map((member) => (
+                          <div
+                            key={member.name}
+                            className="flex flex-col items-center text-center bg-white/80 dark:bg-gray-800 p-6 rounded-lg shadow-md w-full backdrop-blur-sm"
+                          >
+                            <div className="w-full aspect-[3/4] relative mb-4">
+                              {member.image ? (
+                                <Image
+                                  src={member.image}
+                                  alt={member.name}
+                                  fill
+                                  sizes="(max-width: 768px) 100vw, 33vw"
+                                  className="rounded-lg object-cover"
+                                />
+                              ) : (
+                                <div className="h-full w-full rounded-lg bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center">
+                                  <p className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-300">
+                                    Bilde kommer
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                            <p className="font-semibold text-lg">
+                              {member.name}
+                            </p>
+                            <p className="text-sm text-gray-600 dark:text-gray-300">
+                              {member.role}
+                            </p>
                           </div>
-                          <p className="font-semibold text-lg">{member.name}</p>
-                          <p className="text-sm text-gray-600 dark:text-gray-300">
-                            {member.role}
-                          </p>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </CarouselItem>
-              ))}
+                  </CarouselItem>
+                );
+              })}
             </CarouselContent>
             <CarouselPrevious />
             <CarouselNext />
