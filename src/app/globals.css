@@ -20,7 +20,7 @@ body {
 
 @layer utilities {
   .text-balance {
-    text-wrap: normal;
+    text-wrap: balance;
   }
 }
 
@@ -49,24 +49,19 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-@keyframes member-montage-fade {
-  0% {
-    opacity: 0;
-  }
-  8% {
-    opacity: 1;
-  }
-  30% {
-    opacity: 1;
-  }
-  38% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
+.ascii-fit pre,
+.ascii-fit canvas,
+.ascii-fit video,
+.ascii-fit img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: cover;
 }
 
-.group:hover .member-montage-frame {
-  animation: member-montage-fade 3s infinite;
+.ascii-fit pre {
+  margin: 0 !important;
+  overflow: hidden !important;
 }
+
