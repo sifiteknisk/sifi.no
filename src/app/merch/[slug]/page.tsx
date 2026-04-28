@@ -45,53 +45,60 @@ export default async function MerchDetailPage({
     ) || [];
 
   return (
-    <main className="min-h-screen p-4 pt-8 md:pt-10 mb-1 flex flex-col md:flex-row md:justify-center md:items-start items-center gap-4 m-0 dark:bg-gray-900">
-      <div className="flex flex-col md:pr-8 max-w-[550px]">
+    <main className="w-full py-6 md:py-8">
+      <div className="surface-panel p-6 md:p-8">
         <Link href="/merch" className="hover:underline">
           ← Tilbake til merch
         </Link>
-        <div className="relative">
-          <Carousel className="w-full px-0 m-0">
-            <CarouselContent>
-              {Array.from({ length: imageUrls.length }).map((_, index) => (
-                <CarouselItem key={index}>
-                  <div className="p-1">
-                    {imageUrls && (
-                      <Image
-                        src={imageUrls[index]}
-                        alt={merch.title}
-                        className="aspect-video rounded-xl"
-                        width="550"
-                        height="310"
-                      />
-                    )}
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="left-2" />
-            <CarouselNext className="right-2" />
-          </Carousel>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4 items-start">
+          <div className="relative">
+            <Carousel className="w-full px-0 m-0">
+              <CarouselContent>
+                {Array.from({ length: imageUrls.length }).map((_, index) => (
+                  <CarouselItem key={index}>
+                    <div className="p-1">
+                      {imageUrls && (
+                        <Image
+                          src={imageUrls[index]}
+                          alt={merch.title}
+                          className="aspect-video rounded-xl"
+                          width="550"
+                          height="310"
+                        />
+                      )}
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="left-2" />
+              <CarouselNext className="right-2" />
+            </Carousel>
+          </div>
+          <div className="surface-card-soft p-5 md:p-6">
+            <h1 className="text-3xl md:text-4xl font-bold md:mb-2 text-pretty break-words">
+              {merch.title}
+            </h1>
+
+            {merch.description && (
+              <p className="mb-3 text-slate-700 dark:text-gray-300">
+                {merch.description}
+              </p>
+            )}
+
+            <p className="font-medium">På lager: {merch.stock ?? 'Ukjent'}</p>
+
+            <p className="mt-4">
+              <a
+                href={`mailto:styret@sifi.no?subject=Bestilling%20av%20${encodeURIComponent(
+                  merch.title
+                )}`}
+                className="cta-pill"
+              >
+                Kontakt for bestilling
+              </a>
+            </p>
+          </div>
         </div>
-
-        <h1 className="text-4xl font-bold md:mb-1 text-pretty break-words">
-          {merch.title}
-        </h1>
-
-        {merch.description && <p className="mb-2">{merch.description}</p>}
-
-        <p className="font-medium">På lager: {merch.stock ?? 'Ukjent'}</p>
-
-        <p className="mt-4">
-          <a
-            href={`mailto:styret@sifi.no?subject=Bestilling%20av%20${encodeURIComponent(
-              merch.title
-            )}`}
-            className="text-blue-500 underline font-semibold"
-          >
-            Kontakt for bestilling
-          </a>
-        </p>
       </div>
     </main>
   );

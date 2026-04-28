@@ -37,9 +37,6 @@ export default async function PostPage({
     resolvedParams as QueryParams,
     options
   );
-  console.log(
-    post.eventStart.toLocaleString('nb-NO', { timeZone: 'Europe/Oslo' })
-  );
   if (!post) {
     return notFound();
   }
@@ -50,11 +47,11 @@ export default async function PostPage({
     ) || [];
 
   return (
-    <main className="min-h-screen pt-8 dark:bg-gray-900 flex flex-col items-center">
-      <div className="max-w-5xl mx-auto px-4">
+    <main className="w-full py-6 md:py-8">
+      <div className="surface-panel p-6 md:p-8">
         <Link
           href="/arrangementer"
-          className="hover:underline inline-block mb-4"
+          className="inline-block mb-4 text-blue-700 dark:text-sky-300 hover:underline"
         >
           ← Tilbake til arrangementer
         </Link>
@@ -81,81 +78,78 @@ export default async function PostPage({
             <CarouselNext className="right-2" />
           </Carousel>
         </div>
-      </div>
+        {/* Title and info */}
+        <div className="mb-8 flex flex-col items-center text-center">
+          <h1 className="text-3xl md:text-5xl font-bold mb-4">{post.title}</h1>
 
-      {/* Title and info */}
-      <div className="mb-8 flex flex-col items-center text-center">
-        <h1 className="text-5xl font-bold mb-4">{post.title}</h1>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-center gap-2 md:gap-4 mb-4 text-base md:text-lg">
+            <p className="text-slate-700 dark:text-gray-300">
+              Tidspunkt:{' '}
+              {new Date(post.eventStart).toLocaleDateString('nb-NO', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZone: 'Europe/Oslo',
+              })}
+            </p>
+            <p className="text-slate-700 dark:text-gray-300">Sted: {post.place}</p>
+          </div>
 
-        <div className="flex flex-col md:flex-row md:items-center md:justify-center gap-4 mb-4 text-lg">
-          <p className="text-gray-700 dark:text-gray-300">
-            📅{' '}
-            {new Date(post.eventStart).toLocaleDateString('nb-NO', {
-              weekday: 'long',
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
-              timeZone: 'Europe/Oslo',
-            })}
-          </p>
-          <p className="text-gray-700 dark:text-gray-300">📍 {post.place}</p>
+          {post.registrationButton?.url && (
+            <a
+              href={post.registrationButton.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cta-pill px-8 py-3 text-base md:text-lg"
+            >
+              {post.registrationButton.text || 'Meld deg på'}
+            </a>
+          )}
         </div>
-
-        {post.registrationButton?.url && (
-          <a
-            href={post.registrationButton.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold transition-colors text-lg"
-          >
-            {post.registrationButton.text || 'Meld deg på'}
-          </a>
-        )}
-      </div>
-      {/* Main description */}
-      <div className="prose prose-lg max-w-3xl text-center px-4">
-        {Array.isArray(post.body) && (
-          <PortableText
-            value={post.body}
-            components={
-              {
-                marks: {
-                  link: ({ children, value }) => (
-                    <a
-                      href={value.href}
-                      className="text-blue-500 hover:underline"
-                    >
-                      {children}
-                    </a>
-                  ),
-                },
-                block: {
-                  // Define block-level styles here for headers, paragraphs, etc.
-                  // Not entirely sure why, but h2 and below works, but not h1.
-                  h2: ({ children }) => (
-                    <h2 className="text-2xl font-bold">{children}</h2>
-                  ),
-                  normal: ({ children }) => (
-                    <p className="whitespace-pre-line leading-tight">
-                      {children
-                        ? Array.isArray(children)
-                          ? children.map((line: string, index: number) => (
-                              <span key={index}>
-                                {line}
-                                <br />
-                              </span>
-                            ))
-                          : children // Handle the case where children is a single element or string
-                        : null}
-                    </p>
-                  ),
-                },
-              } as Partial<PortableTextReactComponents>
-            }
-          />
-        )}
+        {/* Main description */}
+        <div className="surface-card-soft p-5 md:p-6 prose prose-lg dark:prose-invert max-w-3xl mx-auto text-left">
+          {Array.isArray(post.body) && (
+            <PortableText
+              value={post.body}
+              components={
+                {
+                  marks: {
+                    link: ({ children, value }) => (
+                      <a
+                        href={value.href}
+                        className="text-blue-700 dark:text-sky-300 hover:underline"
+                      >
+                        {children}
+                      </a>
+                    ),
+                  },
+                  block: {
+                    h2: ({ children }) => (
+                      <h2 className="text-2xl font-bold">{children}</h2>
+                    ),
+                    normal: ({ children }) => (
+                      <p className="whitespace-pre-line leading-tight">
+                        {children
+                          ? Array.isArray(children)
+                            ? children.map((line: string, index: number) => (
+                                <span key={index}>
+                                  {line}
+                                  <br />
+                                </span>
+                              ))
+                            : children
+                          : null}
+                      </p>
+                    ),
+                  },
+                } as Partial<PortableTextReactComponents>
+              }
+            />
+          )}
+        </div>
       </div>
     </main>
   );

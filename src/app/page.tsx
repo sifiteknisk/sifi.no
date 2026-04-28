@@ -1,82 +1,111 @@
-'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
-
-const cardClass =
-  'p-6 bg-slate-100 dark:bg-gray-800 rounded-xl shadow hover:shadow-lg transition block min-w-0';
+import Arrangements from './components/home/Arrangements';
+import PhotoStrip from './components/home/PhotoStrip';
+import Merch from './components/home/Merch';
 
 export default function Home() {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-
-  if (!mounted) return null;
-
-  const partnerLogo =
-    resolvedTheme === 'light'
-      ? '/images/mnemonic-logo.png'
-      : '/images/mnemonic_logo_light.png';
-
   return (
-    <main className="dark:bg-gray-900">
-      <section className="w-full min-w-0 bg-gradient-to-r from-sifiblue to-blue-600 text-white py-20 px-6 text-center">
-        <h1 className="text-3xl md:text-5xl font-bold mb-4">
-          Velkommen til SIFI
-        </h1>
-        <p className="text-base md:text-xl max-w-2xl mx-auto mb-6">
-          Linjeforeningen for informasjonssikkerhet på ifi!
-        </p>
-        <Link
-          href="/about"
-          className="bg-white text-sifiblue px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
-        >
-          Les mer om oss
-        </Link>
-      </section>
+    <main className="relative -mt-16 md:-mt-20 pt-16 md:pt-20 min-h-screen">
+      <div className="relative z-10">
+        <section className="relative w-full max-w-6xl mx-auto px-6 pt-20 pb-10">
+          <div className="surface-panel p-8 md:p-12 shadow-md dark:shadow-none">
+            <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr] gap-8 items-center">
+              <div>
+                <h1 className="text-4xl font-bold leading-tight max-w-3xl text-black dark:text-white md:hidden">
+                  Linjeforening for informasjonssikkerhet
+                </h1>
+                <h1 className="hidden md:block text-4xl md:text-6xl font-bold leading-tight max-w-3xl">
+                  Linjeforening for informasjonssikkerhet
+                </h1>
+                <p className="text-slate-700 dark:text-gray-300 mt-6 max-w-2xl">
+                  Vi er en gjeng med sikkerhetsentusiaster med mål å engasjere
+                  studenter ved UiO i sikkerhet.
+                </p>
 
-      <section className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center min-w-0">
-        <Link href="/arrangementer" className={cardClass}>
-          <h2 className="text-xl lg:text-2xl font-bold mb-2">🎉 Arrangementer</h2>
-          <p>Se våre kommende arrangementer, både faglige og sosiale.</p>
-        </Link>
-        <Link href="/stillingsannonser" className={cardClass}>
-          <h2 className="text-xl lg:text-2xl font-bold mb-2">💼 Stillingsannonser</h2>
-          <p>Finn spennende stillinger fra vår samarbeidspartner.</p>
-        </Link>
-        <Link href="/merch" className={cardClass}>
-          <h2 className="text-xl lg:text-2xl font-bold mb-2">🛍️ Merch</h2>
-          <p>Sjekk ut vår genser, kopp og mer!</p>
-        </Link>
-      </section>
+                <div className="flex flex-col sm:flex-row gap-2 md:gap-3 mt-8">
+                  <Link
+                    href="/about"
+                    className="w-full sm:flex-1 text-center text-sm md:text-base px-4 md:px-6 py-3 rounded-full bg-sifiblue text-white font-semibold hover:bg-blue-500 transition-colors"
+                  >
+                    <span className="sm:hidden">Om oss</span>
+                    <span className="hidden sm:inline">Les mer om oss</span>
+                  </Link>
+                  <Link
+                    href="/arrangementer"
+                    className="w-full sm:flex-1 text-center text-sm md:text-base px-4 md:px-6 py-3 rounded-full border border-blue-500/40 dark:border-blue-300/50 text-blue-700 dark:text-sky-200 hover:text-blue-900 dark:hover:text-white hover:border-blue-600 dark:hover:border-sky-300 transition-colors"
+                  >
+                    <span className="sm:hidden">Arrangementer</span>
+                    <span className="hidden sm:inline">Se arrangementer</span>
+                  </Link>
+                </div>
+              </div>
+              <div className="hidden md:flex p-6 md:p-8 items-center justify-center">
+                <Image
+                  src="/images/logo_full_utenbak.png"
+                  alt="SIFI logo"
+                  width={560}
+                  height={220}
+                  className="h-auto w-full max-w-[22rem] object-contain dark:hidden"
+                  priority
+                />
+                <Image
+                  src="/images/logo_full_utenbak_hvitskrift.png"
+                  alt="SIFI logo"
+                  width={560}
+                  height={220}
+                  className="hidden h-auto w-full max-w-[22rem] object-contain dark:block"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
+        </section>
 
-      <section className="flex flex-col items-center py-16 min-w-0 px-6">
-        <h3 className="text-xl font-semibold mb-6 text-center break-words">
-          Vår samarbeidspartner:
-        </h3>
-        <Image
-          src={partnerLogo}
-          alt="Mnemonic"
-          width={200}
-          height={200}
-          className="pb-6"
-        />
-        <p className="text-center max-w-xl pb-4 break-words w-full">
-          Vår samarbeidspartner er en av Europas ledende innenfor
-          cybersikkerhetstjenester. Ekspertene deres er alltid klar til å
-          håndtere cyberangrep.
-        </p>
-        <Link
-          href="https://www.mnemonic.io/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block max-w-full w-48 bg-sifiblue px-2 py-1 text-center rounded-full hover:underline text-white break-words"
-        >
-          Les mer om dem
-        </Link>
-      </section>
+        <Arrangements />
+        <Merch />
+        <PhotoStrip />
+
+        <section className="w-full max-w-6xl mx-auto px-6 py-12 pb-20">
+          <div className="p-8 md:p-10">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">
+              Samarbeidspartner
+            </h2>
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-16 mt-8 ml-20">
+              <Image
+                src="/images/mnemonic-logo.png"
+                alt="Mnemonic"
+                width={240}
+                height={92}
+                className="object-contain dark:hidden"
+              />
+              <Image
+                src="/images/mnemonic_logo_light.png"
+                alt="Mnemonic"
+                width={240}
+                height={92}
+                className="hidden object-contain dark:block"
+              />
+              <div>
+                <p className="text-slate-700 dark:text-gray-300 max-w-2xl">
+                  Vår samarbeidspartner er en av Europas ledende innenfor
+                  cybersikkerhetstjenester. Ekspertene deres er alltid klar til
+                  å håndtere cyberangrep.
+                </p>
+
+                <Link
+                  href="https://www.mnemonic.io/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center mt-4 px-5 py-2.5 rounded-full border border-blue-500/40 dark:border-blue-300/50 text-blue-700 dark:text-sky-200 font-medium hover:text-blue-900 dark:hover:text-white hover:border-blue-600 dark:hover:border-sky-300 transition-colors"
+                >
+                  Les mer om mnemonic
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }

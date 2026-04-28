@@ -4,6 +4,8 @@ import './globals.css';
 import Navbar from './components/navbar';
 import Footer from './components/footer';
 import { ThemeProvider } from './components/theme-provider';
+import Background from './components/home/Background';
+import PageShell from './components/PageShell';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -47,7 +49,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-100 text-slate-900 dark:bg-[#030712] dark:text-white`}
         suppressHydrationWarning
       >
         <ThemeProvider
@@ -57,7 +59,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navbar></Navbar>
-          {children}
+          <div className="relative pt-16 md:pt-20 min-h-screen overflow-hidden">
+            <Background />
+            <div className="relative z-10">
+              <PageShell>{children}</PageShell>
+            </div>
+          </div>
           <Footer></Footer>
         </ThemeProvider>
       </body>

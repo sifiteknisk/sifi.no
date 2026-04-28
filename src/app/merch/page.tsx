@@ -17,14 +17,14 @@ const urlFor = (source: SanityImageSource) =>
 
 const options = { next: { revalidate: 30 } };
 
-interface Merch {
+type Merch = {
   _id: string;
   title: string;
   images?: SanityImageSource[];
   slug?: { current: string };
   description?: string;
   stock?: number;
-}
+};
 
 async function MerchPageInner() {
   const merchItems = await client.fetch<SanityDocument>(
@@ -35,15 +35,21 @@ async function MerchPageInner() {
 
   if (!merchItems || merchItems.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col justify-start items-center gap-4 pt-20 dark:bg-gray-900">
-        <p className="text-2xl font-semibold">Ingen merch enda!</p>
-        <p className="text-xl">Følg med her, vi fyller på snart 😄</p>
+      <div className="w-full py-6 md:py-8">
+        <div className="surface-panel p-7 md:p-10 text-center">
+          <p className="text-2xl font-semibold">Ingen merch enda!</p>
+          <p className="text-slate-700 dark:text-gray-300">
+            Følg med her, vi fyller på snart.
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-8">
+    <div className="w-full py-6 md:py-8">
+      <div className="surface-panel p-6 md:p-8">
+      <h1 className="text-3xl md:text-4xl font-bold mb-6">Merch</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {merchItems.map((item: Merch) => {
           const imageUrls =
@@ -55,10 +61,7 @@ async function MerchPageInner() {
           const firstImageUrl = imageUrls[0];
 
           return (
-            <div
-              key={item._id}
-              className="p-4 rounded-xl shadow bg-white dark:bg-gray-800"
-            >
+            <div key={item._id} className="p-4 surface-card">
               {firstImageUrl && (
                 <Link href={`/merch/${page_id}`}>
                   <Image
@@ -72,7 +75,7 @@ async function MerchPageInner() {
               )}
 
               <Link href={`/merch/${page_id}`}>
-                <h1 className="text-2xl font-bold mb-2">{item.title}</h1>
+                <h2 className="text-xl md:text-2xl font-bold mb-2">{item.title}</h2>
               </Link>
 
               {item.description && (
@@ -87,7 +90,7 @@ async function MerchPageInner() {
                   href={`mailto:styret@sifi.no?subject=Bestilling%20av%20${encodeURIComponent(
                     item.title
                   )}`}
-                  className="text-blue-500 underline font-semibold"
+                  className="cta-pill px-3 py-1 text-xs"
                 >
                   Kontakt for bestilling
                 </a>
@@ -96,13 +99,14 @@ async function MerchPageInner() {
           );
         })}
       </div>
+      </div>
     </div>
   );
 }
 
 const Merch = () => {
   return (
-    <div className="min-h-screen flex flex-col justify-start items-center dark:bg-gray-900">
+    <div className="w-full">
       <MerchPageInner />
     </div>
   );

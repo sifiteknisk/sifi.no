@@ -1,36 +1,24 @@
 'use client';
 import * as React from 'react';
-import { useEffect } from 'react';
-import { Moon, Sun } from 'lucide-react';
+import { Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
-import { Button } from '@/components/ui/button';
-
 export default function ModeToggle() {
-  const { setTheme, theme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
 
   const toggleTheme = () => {
-    console.log(theme);
-    setTheme(theme === 'light' ? 'dark' : 'light');
+    setTheme(resolvedTheme === 'light' ? 'dark' : 'light');
   };
 
-  useEffect(() => {
-    // This will help you fetch the initial theme from localStorage or set the default theme.
-    console.log(window.localStorage.getItem('theme'));
-    const currentTheme = window.localStorage.getItem('theme') || 'light';
-    setTheme(currentTheme);
-  });
-
   return (
-    <Button
-      variant="outline"
-      size="icon"
+    <button
+      type="button"
       onClick={toggleTheme}
-      className="dark:bg-gray-900 md:mx-4"
+      className="inline-flex h-9 items-center gap-1 rounded-xl px-2 text-slate-700 transition-colors hover:text-blue-800 dark:text-slate-200 dark:hover:text-sky-200"
+      aria-label="Bytt tema"
     >
-      <Sun className="h-[1.2rem] w-[1.2rem] scale-100 text-black dark:scale-0" />
-      <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 dark:scale-100" />
-      <span className="sr-only">Toggle theme</span>
-    </Button>
+      <Sun className="h-4 w-4" />
+      <span className="sr-only">Bytt tema</span>
+    </button>
   );
 }

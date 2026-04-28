@@ -1,58 +1,25 @@
 'use client';
-import React, { useState } from 'react';
 
-interface PdfPreviewProps {
-  pdfUrl: string; // The URL of the PDF to display
-}
+type PdfPreviewProps = {
+  pdfUrl: string;
+};
 
-const PdfPreview: React.FC<PdfPreviewProps> = ({ pdfUrl }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
+const PdfPreview = ({ pdfUrl }: PdfPreviewProps) => {
   return (
-    <div className="flex flex-col justify-center mt-8">
-      {/* PDF Preview */}
-      <button onClick={openModal}>Forstørr</button>
+    <div className="mt-2 w-full">
+      <a
+        href={pdfUrl}
+        target="_blank"
+        rel="noreferrer"
+        className="inline-block mb-2 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+      >
+        Åpne i ny fane
+      </a>
       <iframe
-        className="cursor-pointer border-2 border-gray-300"
-        src={`${pdfUrl}#view=FitH`}
-        width="400"
-        height="400"
-        onClick={openModal}
+        className="w-full h-[60vh] min-h-[520px] rounded-md border border-gray-300 dark:border-gray-600 bg-white"
+        src={`${pdfUrl}#view=FitV&toolbar=1&navpanes=0`}
         title="PDF Preview"
       />
-
-      {/* Modal for Enlarged PDF */}
-      {isModalOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50"
-          onClick={closeModal}
-        >
-          <div className="relative w-full h-full max-w-4xl max-h-4xl">
-            <span
-              className="absolute top-4 right-4 text-white text-3xl cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation();
-                closeModal();
-              }}
-            >
-              ×
-            </span>
-            <iframe
-              className="w-full h-full"
-              src={`${pdfUrl}#view=FitH`}
-              title="Enlarged PDF"
-            ></iframe>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

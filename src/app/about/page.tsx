@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
-import { AsciiMedia } from 'ascii-react';
 import { useEffect, useMemo, useState } from 'react';
 import { boards, placeholderImage, type BoardMember } from './styre-data';
 import {
@@ -30,8 +29,8 @@ type ScrambleTextProps = {
 const ScrambleText = ({
   text,
   isActive,
-  scrambleDuration = 0.6,
-  stagger = 0.03,
+  scrambleDuration = 1.4,
+  stagger = 0.06,
   cycles = 12,
   characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*',
   className,
@@ -45,7 +44,11 @@ const ScrambleText = ({
     }
 
     const letters = text.split('');
-    const totalTicks = Math.max(1, Math.floor((scrambleDuration * 1000) / 30));
+    const tickMs = 45;
+    const totalTicks = Math.max(
+      1,
+      Math.floor((scrambleDuration * 1000) / tickMs)
+    );
     let tick = 0;
 
     const timer = setInterval(() => {
@@ -75,7 +78,7 @@ const ScrambleText = ({
         setDisplayText(text);
         clearInterval(timer);
       }
-    }, 30);
+    }, tickMs);
 
     return () => clearInterval(timer);
   }, [characters, cycles, isActive, scrambleDuration, stagger, text]);
@@ -160,16 +163,13 @@ const BoardMemberCard = ({ member }: BoardMemberCardProps) => {
           >
             {member.anonymous ? (
               <div className="absolute inset-0 flex items-center justify-center rounded-lg overflow-hidden bg-[#eff6ff] dark:bg-[#111827]">
-                <div className="ascii-fit h-full w-full origin-center overflow-hidden">
-                  <AsciiMedia
+                <div className="h-full w-full origin-center overflow-hidden">
+                  <Image
                     src={memberImages[imageIndex]}
-                    mediaType="image"
-                    resolution={70}
-                    fontSize={8}
-                    charInterval={120}
-                    color="#2563eb"
-                    charsRandomLevel="group"
-                    backgroundColor="#00000000"
+                    alt={member.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover contrast-125 grayscale"
                   />
                 </div>
               </div>
@@ -193,23 +193,7 @@ const BoardMemberCard = ({ member }: BoardMemberCardProps) => {
           <div className="h-full w-full animate-pulse bg-gradient-to-br from-gray-200 via-gray-100 to-gray-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800" />
         </div>
       </div>
-      <motion.p
-        className="px-4 pt-4 text-center font-semibold text-lg"
-        whileHover={
-          member.anonymous
-            ? {
-                textShadow: [
-                  '0 0 0 rgba(0,0,0,0)',
-                  '1px 0 0 rgba(255,0,80,0.7), -1px 0 0 rgba(0,220,255,0.7)',
-                  '0 0 0 rgba(0,0,0,0)',
-                ],
-              }
-            : undefined
-        }
-        transition={
-          member.anonymous ? { duration: 0.22, ease: 'linear' } : undefined
-        }
-      >
+      <motion.p className="px-4 pt-4 text-center font-semibold text-lg">
         {member.anonymous ? (
           <ScrambleText
             text={member.name}
@@ -243,18 +227,20 @@ const About = () => {
     : years[years.length - 1];
 
   return (
-    <div className="min-h-screen dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-8">
-      <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 text-center">Hvem er vi?</h1>
+    <div className="w-full py-6 md:py-8">
+      <div className="surface-panel p-6 md:p-8">
+        <h1 className="text-3xl md:text-4xl font-bold mb-8 text-center md:text-left">
+          Hvem er vi?
+        </h1>
 
         {/* Intro */}
-        <section className="mb-12">
+        <section className="mb-12 text-slate-700 dark:text-gray-300">
           <p>
             SIFI, Sikkerhet på IFI, er linjeforeningen for Informasjonssikkerhet
             ved UiO, og alle studenter ved{' '}
             <a
               href="https://www.uio.no/studier/program/informasjonssikkerhet-master/"
-              className="hover:underline"
+              className="text-blue-700 dark:text-sky-300 hover:underline"
             >
               Master i Informasjonssikkerhet
             </a>{' '}
@@ -286,8 +272,10 @@ const About = () => {
 
                   return (
                     <CarouselItem key={year}>
-                      <div className="flex flex-col items-center rounded-2xl border border-gray-200/70 dark:border-gray-700 bg-white/85 dark:bg-gray-800/80 shadow-sm p-4 sm:p-6">
-                        <h3 className="text-2xl font-bold mb-5">Styret {year}</h3>
+                      <div className="surface-card flex flex-col items-center p-4 sm:p-6">
+                        <h3 className="text-2xl font-bold mb-5">
+                          Styret {year}
+                        </h3>
 
                         {/* Group photo */}
                         <div className="w-full max-w-4xl mx-auto aspect-[16/9] relative mb-6">
@@ -302,7 +290,10 @@ const About = () => {
                         {/* Members grid */}
                         <div className="w-full max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                           {data.members.map((member) => (
-                            <BoardMemberCard key={member.name} member={member} />
+                            <BoardMemberCard
+                              key={member.name}
+                              member={member}
+                            />
                           ))}
                         </div>
                       </div>

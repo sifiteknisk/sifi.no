@@ -15,7 +15,7 @@ const urlFor = (source: SanityImageSource) =>
     : null;
 const options = { next: { revalidate: 30 } };
 
-interface Post {
+type Post = {
   _id: string;
   title: string;
   images?: SanityImageSource[];
@@ -24,15 +24,19 @@ interface Post {
   eventStart: string;
   eventEnd: string;
   body: string;
-}
+};
 
 async function PostPage() {
   const posts = await client.fetch<SanityDocument>(POST_QUERY, {}, options);
   if (!posts || posts.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col justify-start items-center gap-4 pt-20 dark:bg-gray-900">
-        <p className="text-2xl font-semibold">Her var det tomt gitt!</p>
-        <p className="text-xl">Følg med her for fremtidige arrangementer 😄</p>
+      <div className="w-full py-6 md:py-8">
+        <div className="surface-panel p-7 md:p-10 text-center">
+          <p className="text-2xl font-semibold">Her var det tomt gitt!</p>
+          <p className="text-slate-700 dark:text-gray-300">
+            Følg med her for fremtidige arrangementer.
+          </p>
+        </div>
       </div>
     );
   }
@@ -48,16 +52,22 @@ async function PostPage() {
 
   if (filteredPosts.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col justify-start items-center gap-4 pt-20 dark:bg-gray-900">
-        <p className="text-2xl font-semibold">Her var det tomt gitt!</p>
-        <p className="text-xl">Følg med her for fremtidige arrangementer 😄</p>
+      <div className="w-full py-6 md:py-8">
+        <div className="surface-panel p-7 md:p-10 text-center">
+          <p className="text-2xl font-semibold">Her var det tomt gitt!</p>
+          <p className="text-slate-700 dark:text-gray-300">
+            Følg med her for fremtidige arrangementer.
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="w-full py-6 md:py-8">
+      <div className="surface-panel p-6 md:p-8">
+        <h1 className="text-3xl md:text-4xl font-bold mb-6">Arrangementer</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredPosts.map((post: Post) => {
           const imageUrls =
             post.images?.map((image: SanityImageSource) =>
@@ -68,10 +78,7 @@ async function PostPage() {
           const firstImageUrl = imageUrls[0];
 
           return (
-            <div
-              key={post._id}
-              className="p-4 rounded-xl shadow bg-white dark:bg-gray-800"
-            >
+            <div key={post._id} className="surface-card p-4">
               {firstImageUrl && (
                 <Link href={`/arrangementer/${page_id}`}>
                   <Image
@@ -84,9 +91,9 @@ async function PostPage() {
                 </Link>
               )}
               <Link href={`/arrangementer/${page_id}`}>
-                <h1 className="text-2xl font-bold mb-2 text-pretty break-words">
+                <h2 className="text-xl md:text-2xl font-bold mb-2 text-pretty break-words">
                   {post.title}
-                </h1>
+                </h2>
               </Link>
 
               <p className="text-sm text-gray-700 dark:text-gray-300">
@@ -104,6 +111,7 @@ async function PostPage() {
             </div>
           );
         })}
+        </div>
       </div>
     </div>
   );
@@ -111,7 +119,7 @@ async function PostPage() {
 
 const Arrangementer = () => {
   return (
-    <div className="min-h-screen flex flex-col justify-start items-center dark:bg-gray-900">
+    <div className="w-full">
       <PostPage />
     </div>
   );

@@ -17,7 +17,7 @@ const urlFor = (source: SanityImageSource) =>
 
 const options = { next: { revalidate: 30 } };
 
-interface Post {
+type Post = {
   _id: string;
   title: string;
   image?: SanityImageSource;
@@ -26,18 +26,20 @@ interface Post {
   eventStart: string;
   eventEnd: string;
   body: string;
-}
+};
 
 async function AnnonsePage() {
   const posts = await client.fetch<SanityDocument>(ANNONSE_QUERY, {}, options);
 
   if (!posts || posts.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col justify-start items-center gap-4 pt-20 dark:bg-gray-900">
-        <p className="text-2xl font-semibold">Her var det tomt gitt!</p>
-        <p className="text-xl">
-          Følg med her for fremtidige stillingsannonser 😄
-        </p>
+      <div className="w-full py-6 md:py-8">
+        <div className="surface-panel p-7 md:p-10 text-center">
+          <p className="text-2xl font-semibold">Her var det tomt gitt!</p>
+          <p className="text-slate-700 dark:text-gray-300">
+            Følg med her for fremtidige stillingsannonser.
+          </p>
+        </div>
       </div>
     );
   }
@@ -52,16 +54,20 @@ async function AnnonsePage() {
   // Viser riktig info når sanity ikke er tomt, men filtered
   if (filteredPosts.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col justify-start items-center gap-4 pt-20 dark:bg-gray-900">
-        <p className="text-2xl font-semibold">Her var det tomt gitt!</p>
-        <p className="text-xl">
-          Følg med her for fremtidige stillingsannonser 😄
-        </p>
+      <div className="w-full py-6 md:py-8">
+        <div className="surface-panel p-7 md:p-10 text-center">
+          <p className="text-2xl font-semibold">Her var det tomt gitt!</p>
+          <p className="text-slate-700 dark:text-gray-300">
+            Følg med her for fremtidige stillingsannonser.
+          </p>
+        </div>
       </div>
     );
   }
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-8">
+    <div className="w-full py-6 md:py-8">
+      <div className="surface-panel p-6 md:p-8">
+      <h1 className="text-3xl md:text-4xl font-bold mb-6">Stillingsannonser</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredPosts.map((post: Post) => {
           const postImageUrl = post.image
@@ -71,10 +77,7 @@ async function AnnonsePage() {
           const page_id = post.slug?.current || '';
 
           return (
-            <div
-              key={post._id}
-              className="p-4 rounded-xl shadow bg-white dark:bg-gray-800"
-            >
+            <div key={post._id} className="p-4 surface-card">
               {postImageUrl && (
                 <Link href={`/stillingsannonser/${page_id}`}>
                   <Image
@@ -87,7 +90,7 @@ async function AnnonsePage() {
                 </Link>
               )}
               <Link href={`/stillingsannonser/${page_id}`}>
-                <h1 className="text-2xl font-bold mb-2">{post.title}</h1>
+                <h2 className="text-xl md:text-2xl font-bold mb-2">{post.title}</h2>
               </Link>
 
               <p className="text-sm text-gray-700 dark:text-gray-300">
@@ -104,13 +107,14 @@ async function AnnonsePage() {
           );
         })}
       </div>
+      </div>
     </div>
   );
 }
 
 const Stillingsannonser = () => {
   return (
-    <div className="min-h-screen flex flex-col justify-start items-center dark:bg-gray-900">
+    <div className="w-full">
       <AnnonsePage />
     </div>
   );

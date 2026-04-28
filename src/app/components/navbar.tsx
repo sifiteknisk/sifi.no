@@ -2,90 +2,190 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import Darkmode from './darkmode';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+  const toggleMenu = () => setIsOpen((open) => !open);
+  const closeMenu = () => setIsOpen(false);
 
-  const linkClass =
-    'whitespace-nowrap block py-3 px-4 hover:bg-sifiblue hover:text-white md:py-2 md:px-3 md:rounded-lg md:inline-block border-b border-slate-200 dark:border-gray-700 last:border-0 md:border-0 transition-colors flex-shrink-0';
+  const navItems = [
+    { href: '/arrangementer', label: 'Arrangementer' },
+    { href: '/stillingsannonser', label: 'Stillingsannonser' },
+    { href: '/merch', label: 'Merch' },
+    { href: '/about', label: 'Om oss' },
+    { href: '/si-ifra', label: 'Si ifra' },
+  ];
+
+  const isActive = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`);
+  const isHome = pathname === '/';
+
+  const desktopLinkClass = (active: boolean) =>
+    `whitespace-nowrap flex h-full w-full items-center justify-center text-center text-xs lg:text-sm font-semibold transition-colors ${
+      active
+        ? 'bg-blue-200/90 text-blue-900 dark:bg-slate-700/90 dark:text-sky-200'
+        : 'text-slate-700 dark:text-slate-200 hover:bg-blue-100/90 hover:text-blue-800 dark:hover:bg-slate-800/90 dark:hover:text-sky-200'
+    }`;
+
+  const mobileLinkClass = (active: boolean) =>
+    `whitespace-nowrap flex items-center justify-center gap-2 rounded-xl border px-3 py-2 text-center transition-all duration-200 ${
+      active
+        ? 'border-blue-400/60 bg-blue-100/90 text-blue-900 dark:border-sky-300/60 dark:bg-slate-800/90 dark:text-sky-200 shadow-sm'
+        : 'border-transparent text-slate-700 dark:text-slate-200 hover:-translate-y-0.5 hover:border-blue-400/40 hover:bg-blue-50/80 hover:text-blue-800 dark:hover:border-sky-300/40 dark:hover:bg-slate-800/75 dark:hover:text-sky-200'
+    }`;
 
   return (
-    <div className="relative w-full bg-slate-100 dark:bg-gray-900 border-b-2 border-slate-200 md:border-slate-100">
-      <div className="max-w-7xl mx-auto px-4 md:px-10 lg:px-16 py-3 md:py-4">
-        <div className="flex flex-row items-center justify-between min-w-0 gap-2">
-          <Link href="/" className="flex-shrink-0" onClick={() => setIsOpen(false)}>
-            <picture className="w-32 md:w-auto h-20 md:h-auto px-2 block">
-              <Image
-                src={'/images/logo_liten_utenbak.png'}
-                alt="SIFI"
-                width={50}
-                height={25}
-                className="object-contain"
-              />
-            </picture>
-          </Link>
-
-          <div className="flex items-center gap-2 md:gap-4 min-w-0 flex-shrink">
-            <button
-              onClick={toggleMenu}
-              className="md:hidden relative w-10 h-10 rounded-lg hover:bg-slate-200 dark:hover:bg-gray-800 transition-colors flex items-center justify-center"
-              aria-label={isOpen ? 'Lukk meny' : 'Åpne meny'}
-              aria-expanded={isOpen}
-            >
-              <span
-                className={`absolute w-6 h-0.5 left-1/2 -translate-x-1/2 bg-sifiblue transition-all duration-200 ease-out ${
-                  isOpen ? 'top-1/2 -translate-y-1/2 rotate-45' : 'top-2 rotate-0'
-                }`}
-              />
-              <span
-                className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-0.5 bg-sifiblue transition-all duration-200 ease-out ${
-                  isOpen ? 'opacity-0 scale-x-0' : 'opacity-100 scale-x-100'
-                }`}
-              />
-              <span
-                className={`absolute w-6 h-0.5 left-1/2 -translate-x-1/2 bg-sifiblue transition-all duration-200 ease-out ${
-                  isOpen ? 'top-1/2 -translate-y-1/2 -rotate-45' : 'bottom-2 rotate-0'
-                }`}
-              />
-            </button>
-
-            <div
-              className={`flex flex-col absolute top-full left-0 right-0 bg-slate-100 dark:bg-gray-900 border-b-2 border-slate-200 dark:border-gray-700 md:border-0 md:static md:flex md:flex-row md:items-center md:gap-4 md:overflow-x-auto md:min-w-0 text-lg md:text-sm lg:text-base font-semibold z-10 shadow-lg md:shadow-none origin-top transition-all duration-200 ease-out ${
-                isOpen
-                  ? 'translate-y-0 opacity-100'
-                  : '-translate-y-2 opacity-0 pointer-events-none md:pointer-events-auto md:translate-y-0 md:opacity-100'
+    <header className="fixed top-0 md:top-3 left-0 right-0 z-50 md:px-4 lg:px-6">
+      <div className="mx-auto max-w-7xl md:max-w-5xl border-b border-blue-300/40 bg-slate-100/90 dark:border-blue-300/20 dark:bg-[#030712]/85 backdrop-blur-md md:rounded-2xl md:border md:border-blue-300/30 md:dark:border-blue-300/25 md:shadow-[0_10px_30px_rgba(2,6,23,0.16)]">
+        <div className="px-3 md:px-0 h-16">
+          <div className="h-full flex items-center gap-2 md:gap-0">
+            <Link
+              href="/"
+              className={`hidden md:flex shrink-0 h-full w-24 items-center justify-center rounded-l-xl transition-colors md:pl-0.5 ${
+                isHome
+                  ? 'bg-blue-200/90 dark:bg-slate-700/90'
+                  : 'hover:bg-blue-100/90 dark:hover:bg-slate-800/90'
               }`}
+              onClick={closeMenu}
             >
-              <Link href="/" className={linkClass} onClick={toggleMenu}>
-                Hjem
-              </Link>
-              <Link href="/arrangementer" className={linkClass} onClick={toggleMenu}>
-                Arrangementer
-              </Link>
-              <Link href="/stillingsannonser" className={linkClass} onClick={toggleMenu}>
-                Stillingsannonser
-              </Link>
-              <Link href="/merch" className={linkClass} onClick={toggleMenu}>
-                Merch
-              </Link>
-              <Link href="/about" className={linkClass} onClick={toggleMenu}>
-                Om oss
-              </Link>
-              <Link href="/si-ifra" className={linkClass} onClick={toggleMenu}>
-                Si ifra
-              </Link>
+              <Image
+                src="/images/logo_liten_utenbak.png"
+                alt="SIFI"
+                width={122}
+                height={61}
+                className="h-12 w-auto object-contain dark:hidden drop-shadow-[0_2px_10px_rgba(37,99,235,0.08)] transition-[filter] duration-200 hover:drop-shadow-[0_6px_16px_rgba(37,99,235,0.38)]"
+              />
+              <Image
+                src="/images/logo_liten_utenbak_white.png"
+                alt="SIFI"
+                width={122}
+                height={61}
+                className="hidden h-12 w-auto object-contain dark:block drop-shadow-[0_2px_10px_rgba(125,211,252,0.08)] transition-[filter] duration-200 hover:drop-shadow-[0_6px_16px_rgba(125,211,252,0.38)]"
+              />
+            </Link>
+            <Link
+              href="/"
+              className="md:hidden shrink-0 px-2 py-1 transition-transform duration-200 hover:scale-[1.02]"
+              onClick={closeMenu}
+            >
+              <Image
+                src="/images/logo_liten_utenbak.png"
+                alt="SIFI"
+                width={122}
+                height={61}
+                className="h-12 w-auto object-contain dark:hidden"
+              />
+              <Image
+                src="/images/logo_liten_utenbak_white.png"
+                alt="SIFI"
+                width={122}
+                height={61}
+                className="hidden h-12 w-auto object-contain dark:block"
+              />
+            </Link>
+
+            <nav className="hidden md:grid grid-cols-5 flex-1 h-full overflow-hidden">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={desktopLinkClass(isActive(item.href))}
+                  onClick={closeMenu}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+
+            <div className="ml-auto hidden md:flex h-full w-24 items-center justify-center rounded-r-xl hover:bg-blue-100/90 dark:hover:bg-slate-800/90 transition-colors">
+              <Darkmode />
             </div>
 
-            <Darkmode />
+            <div className="ml-auto flex items-center gap-2 md:hidden">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-blue-300/40 bg-blue-50/80 dark:border-slate-700 dark:bg-slate-800/90">
+                <Darkmode />
+              </div>
+              <button
+                onClick={toggleMenu}
+                className={`md:hidden relative h-9 w-9 transition-all duration-200 flex items-center justify-center ${
+                  isOpen
+                    ? 'text-blue-900 dark:text-sky-200'
+                    : 'text-slate-700 dark:text-slate-200 hover:text-blue-800 dark:hover:text-sky-200'
+                }`}
+                aria-label={isOpen ? 'Lukk meny' : 'Åpne meny'}
+                aria-expanded={isOpen}
+              >
+                <span
+                  className={`absolute w-5 h-0.5 bg-blue-700 dark:bg-sky-300 transition-all duration-200 ease-out ${
+                    isOpen
+                      ? 'top-1/2 -translate-y-1/2 rotate-45'
+                      : 'top-2.5 rotate-0'
+                  }`}
+                />
+                <span
+                  className={`absolute top-1/2 -translate-y-1/2 w-5 h-0.5 bg-blue-700 dark:bg-sky-300 transition-all duration-200 ease-out ${
+                    isOpen ? 'opacity-0 scale-x-0' : 'opacity-100 scale-x-100'
+                  }`}
+                />
+                <span
+                  className={`absolute w-5 h-0.5 bg-blue-700 dark:bg-sky-300 transition-all duration-200 ease-out ${
+                    isOpen
+                      ? 'top-1/2 -translate-y-1/2 -rotate-45'
+                      : 'bottom-2.5 rotate-0'
+                  }`}
+                />
+              </button>
+            </div>
           </div>
         </div>
+
+        <div
+          className={`md:hidden border-t border-blue-300/40 dark:border-blue-300/20 bg-slate-100/95 dark:bg-[#030712]/95 backdrop-blur-md transition-all duration-200 origin-top ${
+            isOpen
+              ? 'max-h-[28rem] opacity-100'
+              : 'max-h-0 opacity-0 pointer-events-none'
+          } overflow-hidden`}
+        >
+          <nav className="px-4 py-3 text-sm font-semibold space-y-1.5">
+            <Link
+              href="/"
+              className={mobileLinkClass(pathname === '/')}
+              onClick={closeMenu}
+            >
+              <span
+                className={`h-1.5 w-1.5 rounded-full ${
+                  pathname === '/'
+                    ? 'bg-blue-600 dark:bg-sky-300'
+                    : 'bg-slate-400/70 dark:bg-slate-500/80'
+                }`}
+              />
+              <span>Hjem</span>
+            </Link>
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={mobileLinkClass(isActive(item.href))}
+                onClick={closeMenu}
+              >
+                <span
+                  className={`h-1.5 w-1.5 rounded-full ${
+                    isActive(item.href)
+                      ? 'bg-blue-600 dark:bg-sky-300'
+                      : 'bg-slate-400/70 dark:bg-slate-500/80'
+                  }`}
+                />
+                <span>{item.label}</span>
+              </Link>
+            ))}
+          </nav>
+        </div>
       </div>
-    </div>
+    </header>
   );
 };
 
