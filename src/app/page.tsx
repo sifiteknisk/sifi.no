@@ -13,7 +13,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr] gap-8 items-center">
               <div>
                 <h1 className="text-4xl font-bold leading-tight max-w-3xl text-black dark:text-white md:hidden">
-                  Linjeforening for informasjonssikkerhet
+                  SIFI @ UiO
                 </h1>
                 <h1 className="hidden md:block text-4xl md:text-6xl font-bold leading-tight max-w-3xl">
                   Linjeforening for informasjonssikkerhet
@@ -71,7 +71,7 @@ export default function Home() {
             <h2 className="text-2xl md:text-3xl font-bold mb-4">
               Samarbeidspartner
             </h2>
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-16 mt-8 ml-20">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-16 mt-8 ml-0 md:ml-20">
               <Image
                 src="/images/mnemonic-logo.png"
                 alt="Mnemonic"
