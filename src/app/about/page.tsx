@@ -97,6 +97,13 @@ const BoardMemberCard = ({ member }: BoardMemberCardProps) => {
   const [isImageLoading, setIsImageLoading] = useState(true);
 
   useEffect(() => {
+    memberImages.forEach((src) => {
+      const preloadedImage = new window.Image();
+      preloadedImage.src = src;
+    });
+  }, [memberImages]);
+
+  useEffect(() => {
     if (!isHovered) {
       setImageIndex(0);
       return;
