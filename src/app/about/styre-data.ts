@@ -95,11 +95,8 @@ export const boards: Record<number, BoardYear> = {
       {
         name: 'Kristian',
         role: 'Bedriftskontakt',
-        image: styretImagePath(2026, 'kristian-1.jpg'),
-        images: [
-          styretImagePath(2026, 'kristian.jpg'),
-          styretImagePath(2026, 'kristian-1.jpg'),
-        ],
+        image: styretImagePath(2026, 'anon.jpg'),
+        anonymous: true,
       },
       {
         name: 'Nathaniel',
