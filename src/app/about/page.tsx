@@ -11,6 +11,7 @@ type BoardMember = {
   name: string;
   role: string;
   image?: string;
+  images?: string[];
 };
 
 type BoardYear = {
@@ -77,7 +78,18 @@ const boards: Record<number, BoardYear> = {
   2026: {
     groupPhoto: styretImagePath(2026, 'styret26.jpg'),
     members: [
-      { name: 'Birk', role: 'Leder', image: styretImagePath(2026, 'birk.jpg') },
+      {
+        name: 'Birk',
+        role: 'Leder',
+        image: styretImagePath(2026, 'birk.jpg'),
+        images: [
+          styretImagePath(2026, 'birk.jpg'),
+          styretImagePath(2026, 'birk-1.jpg'),
+          styretImagePath(2026, 'birk-2.jpg'),
+          styretImagePath(2026, 'birk-3.jpg'),
+          styretImagePath(2026, 'birk-4.jpg'),
+        ],
+      },
       {
         name: 'Ny nestleder',
         role: 'Nestleder',
@@ -207,36 +219,68 @@ const About = () => {
 
                       {/* Members grid */}
                       <div className="w-full max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                        {data.members.map((member) => (
-                          <div
-                            key={member.name}
-                            className="flex flex-col items-center text-center bg-white/80 dark:bg-gray-800 p-6 rounded-lg shadow-md w-full backdrop-blur-sm"
-                          >
-                            <div className="w-full aspect-[3/4] relative mb-4">
-                              {member.image ? (
-                                <Image
-                                  src={member.image}
-                                  alt={member.name}
-                                  fill
-                                  sizes="(max-width: 768px) 100vw, 33vw"
-                                  className="rounded-lg object-cover"
-                                />
-                              ) : (
-                                <div className="h-full w-full rounded-lg bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center">
-                                  <p className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-300">
-                                    Bilde kommer
-                                  </p>
+                        {data.members.map((member) =>
+                          (() => {
+                            const hasMontage =
+                              Boolean(member.images) &&
+                              (member.images?.length ?? 0) > 1;
+                            const mainImage = member.image ?? placeholderImage;
+
+                            return (
+                              <div
+                                key={member.name}
+                                className="group flex flex-col items-center text-center bg-white/80 dark:bg-gray-800 p-6 rounded-lg shadow-md w-full backdrop-blur-sm"
+                              >
+                                <div className="w-full aspect-[3/4] relative mb-4">
+                                  {hasMontage ? (
+                                    <>
+                                      <Image
+                                        src={mainImage}
+                                        alt={member.name}
+                                        fill
+                                        sizes="(max-width: 768px) 100vw, 33vw"
+                                        className="rounded-lg object-cover transition-opacity duration-300 group-hover:opacity-0"
+                                      />
+                                      {member.images?.map((imageSrc, index) => (
+                                        <Image
+                                          key={`${member.name}-montage-${imageSrc}`}
+                                          src={imageSrc}
+                                          alt={`${member.name} ${index + 1}`}
+                                          fill
+                                          sizes="(max-width: 768px) 100vw, 33vw"
+                                          className="member-montage-frame rounded-lg object-cover opacity-0"
+                                          style={{
+                                            animationDelay: `${index * 0.8}s`,
+                                          }}
+                                        />
+                                      ))}
+                                    </>
+                                  ) : member.image ? (
+                                    <Image
+                                      src={member.image}
+                                      alt={member.name}
+                                      fill
+                                      sizes="(max-width: 768px) 100vw, 33vw"
+                                      className="rounded-lg object-cover"
+                                    />
+                                  ) : (
+                                    <div className="h-full w-full rounded-lg bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center">
+                                      <p className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-300">
+                                        Bilde kommer
+                                      </p>
+                                    </div>
+                                  )}
                                 </div>
-                              )}
-                            </div>
-                            <p className="font-semibold text-lg">
-                              {member.name}
-                            </p>
-                            <p className="text-sm text-gray-600 dark:text-gray-300">
-                              {member.role}
-                            </p>
-                          </div>
-                        ))}
+                                <p className="font-semibold text-lg">
+                                  {member.name}
+                                </p>
+                                <p className="text-sm text-gray-600 dark:text-gray-300">
+                                  {member.role}
+                                </p>
+                              </div>
+                            );
+                          })()
+                        )}
                       </div>
                     </div>
                   </CarouselItem>
