@@ -58,48 +58,61 @@ async function AnnonsePage() {
 
   return (
     <div className="w-full py-6 md:py-8">
-      <div className="surface-panel p-6 md:p-8">
-      <h1 className="site-heading mb-6 text-3xl md:text-4xl">Stillingsannonser</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {posts.map((post) => {
-          const postImageUrl = post.image
-            ? urlFor(post.image)?.width(550).height(310).url()
-            : null;
+      <div className="px-1 py-2 sm:px-2">
+        <h1 className="site-heading mb-6 text-3xl md:text-4xl">
+          Stillingsannonser
+        </h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.map((post) => {
+            const postImageUrl = post.image
+              ? urlFor(post.image)
+                  ?.width(1200)
+                  .height(675)
+                  .auto('format')
+                  .quality(80)
+                  .url()
+              : null;
 
-          const page_id = post.slug?.current || '';
+            const page_id = post.slug?.current || '';
 
-          return (
-            <div key={post._id} className="p-4 surface-card">
-              {postImageUrl && (
+            return (
+              <div
+                key={post._id}
+                className="border-t border-blue-200/60 px-1 pt-5 dark:border-blue-300/15"
+              >
+                {postImageUrl && (
+                  <Link href={`/stillingsannonser/${page_id}`}>
+                    <Image
+                      src={postImageUrl}
+                      alt={post.title}
+                      className="aspect-video rounded-xl mb-3"
+                      width={1200}
+                      height={675}
+                      sizes="(max-width: 640px) calc(100vw - 80px), (max-width: 1024px) calc(50vw - 52px), 336px"
+                      quality={80}
+                    />
+                  </Link>
+                )}
                 <Link href={`/stillingsannonser/${page_id}`}>
-                  <Image
-                    src={postImageUrl}
-                    alt={post.title}
-                    className="aspect-video rounded-xl mb-3"
-                    width="550"
-                    height="310"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
+                  <h2 className="mb-2 text-xl font-bold tracking-tight md:text-2xl">
+                    {post.title}
+                  </h2>
                 </Link>
-              )}
-              <Link href={`/stillingsannonser/${page_id}`}>
-                <h2 className="mb-2 text-xl font-bold tracking-tight md:text-2xl">{post.title}</h2>
-              </Link>
 
-              <p className="site-copy text-sm">
-                Søknadsfrist:{' '}
-                {new Date(post.eventStart).toLocaleDateString('nb-NO', {
-                  weekday: 'long',
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric',
-                  timeZone: 'Europe/Oslo',
-                })}
-              </p>
-            </div>
-          );
-        })}
-      </div>
+                <p className="site-copy text-sm">
+                  Søknadsfrist:{' '}
+                  {new Date(post.eventStart).toLocaleDateString('nb-NO', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                    timeZone: 'Europe/Oslo',
+                  })}
+                </p>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

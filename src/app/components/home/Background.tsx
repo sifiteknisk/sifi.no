@@ -5,11 +5,42 @@ import { usePathname } from 'next/navigation';
 import BackgroundPanel from './background-components/BackgroundPanel';
 
 const panels = [
-  { key: 'terminal-node', title: 'ssh://uio@sifi', className: 'left-[4%] top-[10%] h-44 w-72', factor: 0.06, terminalHeader: true, contentVariant: 'shell' as const },
-  { key: 'network-monitor', title: 'graphana', className: 'right-[5%] top-[16%] h-52 w-80', factor: 0.11, denseGrid: true },
-  { key: 'auth-log', title: 'vim /var/log', className: 'left-[4%] bottom-[10%] h-40 w-64', factor: -0.05, contentVariant: 'logs' as const },
-  { key: 'packet-analyzer', title: 'wireshark', className: 'right-[4%] bottom-[28%] h-36 w-56', factor: -0.08, contentVariant: 'packets' as const },
-  { key: 'secure-shell', title: 'metasploit', className: 'left-[4%] top-[50%] h-32 w-52', factor: -0.09, contentVariant: 'shell' as const },
+  {
+    key: 'terminal-node',
+    title: 'ssh://uio@sifi',
+    className: 'left-[4%] top-[10%] h-44 w-72',
+    factor: 0.06,
+    terminalHeader: true,
+    contentVariant: 'shell' as const,
+  },
+  {
+    key: 'network-monitor',
+    title: 'graphana',
+    className: 'right-[5%] top-[16%] h-52 w-80',
+    factor: 0.11,
+    denseGrid: true,
+  },
+  {
+    key: 'auth-log',
+    title: 'vim /var/log',
+    className: 'left-[4%] bottom-[10%] h-40 w-64',
+    factor: -0.05,
+    contentVariant: 'logs' as const,
+  },
+  {
+    key: 'packet-analyzer',
+    title: 'wireshark',
+    className: 'right-[4%] bottom-[28%] h-36 w-56',
+    factor: -0.08,
+    contentVariant: 'packets' as const,
+  },
+  {
+    key: 'secure-shell',
+    title: 'metasploit',
+    className: 'left-[4%] top-[50%] h-32 w-52',
+    factor: -0.09,
+    contentVariant: 'shell' as const,
+  },
 ];
 
 export default function Background() {
@@ -22,15 +53,22 @@ export default function Background() {
 
   useEffect(() => {
     const root = panelsRef.current;
-    if (!showPanels || !root || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (
+      !showPanels ||
+      !root ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    )
+      return;
 
     let frame = 0;
     const update = () => {
       frame = 0;
       const scrollY = window.scrollY;
-      root.querySelectorAll<HTMLElement>('[data-parallax-factor]').forEach((layer) => {
-        layer.style.transform = `translate3d(0, ${scrollY * Number(layer.dataset.parallaxFactor)}px, 0)`;
-      });
+      root
+        .querySelectorAll<HTMLElement>('[data-parallax-factor]')
+        .forEach((layer) => {
+          layer.style.transform = `translate3d(0, ${scrollY * Number(layer.dataset.parallaxFactor)}px, 0)`;
+        });
     };
     const onScroll = () => {
       if (!frame) frame = window.requestAnimationFrame(update);
@@ -45,7 +83,9 @@ export default function Background() {
   }, [showPanels]);
 
   return (
-    <div className="background-visuals absolute inset-0 z-0 pointer-events-none overflow-hidden">
+    <div
+      className={`background-visuals absolute inset-0 z-0 overflow-hidden pointer-events-none ${showPanels ? '' : 'background-visuals-readable'}`}
+    >
       <div
         className="absolute inset-0"
         style={{

@@ -34,15 +34,17 @@ export default async function PostPage({
     return notFound();
   }
   const postImageUrl = post.image
-    ? urlFor(post.image)?.width(450).height(250).auto('format').url()
+    ? urlFor(post.image)
+        ?.width(1200)
+        .height(675)
+        .auto('format')
+        .quality(80)
+        .url()
     : null;
   return (
     <main className="w-full py-6 md:py-8">
-      <div className="w-full surface-panel p-6 md:p-8">
-        <Link
-          href="/stillingsannonser"
-          className="site-link mb-4 inline-block"
-        >
+      <div className="w-full px-1 py-2 sm:px-2">
+        <Link href="/stillingsannonser" className="site-link mb-4 inline-block">
           ← Tilbake til stillingsannonser
         </Link>
 
@@ -53,8 +55,10 @@ export default async function PostPage({
                 src={postImageUrl}
                 alt={post.title}
                 className="aspect-video rounded-xl border border-blue-300/35 dark:border-blue-300/20"
-                width="550"
-                height="310"
+                width={1200}
+                height={675}
+                sizes="(max-width: 767px) calc(100vw - 48px), 520px"
+                quality={80}
               />
             )}
 
@@ -80,8 +84,10 @@ export default async function PostPage({
               })}
             </p>
           </div>
-          <div className="surface-card-soft prose dark:prose-invert p-5 md:p-6 text-left md:w-1/2">
-            <h1 className="site-heading not-prose mb-6 text-3xl">{post.title}</h1>
+          <div className="prose border-t border-blue-200/60 pt-6 text-left dark:prose-invert dark:border-blue-300/15 md:w-1/2 md:border-l md:border-t-0 md:pl-8 md:pt-0">
+            <h1 className="site-heading not-prose mb-6 text-3xl">
+              {post.title}
+            </h1>
 
             {Array.isArray(post.body) && (
               <PortableText
@@ -90,10 +96,7 @@ export default async function PostPage({
                   {
                     marks: {
                       link: ({ children, value }) => (
-                        <a
-                          href={value.href}
-                          className="site-link"
-                        >
+                        <a href={value.href} className="site-link">
                           {children}
                         </a>
                       ),

@@ -42,17 +42,18 @@ export default async function PostPage({
   }
 
   const imageUrls =
-    post.images?.map((image: SanityImageSource) =>
-      urlFor(image)?.width(2600).height(900).auto('format').url()
-    ) || [];
+    post.images
+      ?.map((image: SanityImageSource) =>
+        urlFor(image)?.width(2200).height(762).auto('format').quality(80).url()
+      )
+      .filter((imageUrl: string | undefined): imageUrl is string =>
+        Boolean(imageUrl)
+      ) || [];
 
   return (
     <main className="w-full py-6 md:py-8">
-      <div className="surface-panel p-6 md:p-8">
-        <Link
-          href="/arrangementer"
-          className="site-link mb-4 inline-block"
-        >
+      <div className="px-1 py-2 sm:px-2">
+        <Link href="/arrangementer" className="site-link mb-4 inline-block">
           ← Tilbake til arrangementer
         </Link>
 
@@ -60,16 +61,17 @@ export default async function PostPage({
         <div className="w-full mb-6">
           <Carousel className="w-full">
             <CarouselContent>
-              {Array.from({ length: imageUrls.length }).map((_, index) => (
+              {imageUrls.map((imageUrl: string, index: number) => (
                 <CarouselItem key={index}>
                   <Image
-                    src={imageUrls[index]}
+                    src={imageUrl}
                     alt={post.title}
-                    width={2600}
-                    height={900}
+                    width={2200}
+                    height={762}
+                    sizes="(max-width: 1200px) calc(100vw - 48px), 1088px"
+                    quality={80}
                     className="w-full h-auto rounded-xl"
-                    unoptimized
-                    priority
+                    priority={index === 0}
                   />
                 </CarouselItem>
               ))}
@@ -80,7 +82,9 @@ export default async function PostPage({
         </div>
         {/* Title and info */}
         <div className="mb-8 flex flex-col items-center text-center">
-          <h1 className="site-heading mb-4 text-3xl md:text-5xl">{post.title}</h1>
+          <h1 className="site-heading mb-4 text-3xl md:text-5xl">
+            {post.title}
+          </h1>
 
           <div className="flex flex-col md:flex-row md:items-center md:justify-center gap-2 md:gap-4 mb-4 text-base md:text-lg">
             <p className="site-copy">
@@ -110,7 +114,7 @@ export default async function PostPage({
           )}
         </div>
         {/* Main description */}
-        <div className="surface-card-soft p-5 md:p-6 prose prose-lg dark:prose-invert max-w-3xl mx-auto text-left">
+        <div className="prose prose-lg mx-auto max-w-3xl border-t border-blue-200/60 px-1 pt-6 text-left dark:prose-invert dark:border-blue-300/15">
           {Array.isArray(post.body) && (
             <PortableText
               value={post.body}
@@ -118,10 +122,7 @@ export default async function PostPage({
                 {
                   marks: {
                     link: ({ children, value }) => (
-                      <a
-                        href={value.href}
-                        className="site-link"
-                      >
+                      <a href={value.href} className="site-link">
                         {children}
                       </a>
                     ),

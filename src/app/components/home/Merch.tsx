@@ -55,7 +55,12 @@ export default async function Merch() {
   const placeholders = Math.max(0, sideSlots - sideItems.length);
 
   const featuredImageUrl = featured.images?.[0]
-    ? urlFor(featured.images[0])?.width(1200).height(675).url()
+    ? urlFor(featured.images[0])
+        ?.width(1200)
+        .height(675)
+        .auto('format')
+        .quality(80)
+        .url()
     : MERCH_PLACEHOLDER_IMAGE;
 
   return (
@@ -81,8 +86,12 @@ export default async function Merch() {
         href: `/merch/${item.slug?.current ?? ''}`,
         title: item.title,
         imageUrl: item.images?.[0]
-          ? (urlFor(item.images[0])?.width(700).height(420).url() ??
-            MERCH_PLACEHOLDER_IMAGE)
+          ? (urlFor(item.images[0])
+              ?.width(700)
+              .height(420)
+              .auto('format')
+              .quality(80)
+              .url() ?? MERCH_PLACEHOLDER_IMAGE)
           : MERCH_PLACEHOLDER_IMAGE,
         metaText: `Pa lager: ${item.stock ?? 'Ukjent'}`,
       }))}

@@ -78,7 +78,12 @@ export default async function Arrangements() {
   const events = posts.map((post) => {
     const firstImage = post.images?.[0];
     const imageUrl = firstImage
-      ? urlFor(firstImage)?.width(1200).height(675).url()
+      ? urlFor(firstImage)
+          ?.width(1200)
+          .height(675)
+          .auto('format')
+          .quality(80)
+          .url()
       : null;
     const bodyText = portableTextToPlainText(post.body);
     return { ...post, imageUrl, bodyText };

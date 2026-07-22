@@ -78,8 +78,11 @@ export default function PdfDocuments() {
   };
 
   return (
-    <section className="mt-10" aria-labelledby="dokumenter">
-      <div className="mx-auto max-w-3xl text-center">
+    <section
+      className="border-t border-blue-200/60 pt-10 dark:border-blue-300/15 md:pt-14"
+      aria-labelledby="dokumenter"
+    >
+      <div className="max-w-3xl">
         <p className="text-sm font-bold uppercase tracking-[0.14em] text-blue-700 dark:text-blue-300">
           Dokumenter
         </p>
@@ -88,7 +91,7 @@ export default function PdfDocuments() {
         </h2>
       </div>
 
-      <div className="mt-8 grid gap-5 md:grid-cols-2">
+      <div className="mt-8 divide-y divide-blue-200/60 border-y border-blue-200/60 dark:divide-blue-300/15 dark:border-blue-300/15">
         {documents.map((document, index) => (
           <IntegratedPdf
             key={document.file}

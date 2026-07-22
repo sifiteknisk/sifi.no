@@ -32,7 +32,6 @@ export default function ModeToggle({ className }: ModeToggleProps) {
         aria-hidden="true"
         className="hidden h-[18px] w-[18px] dark:block"
       />
-      <span className="sr-only">Bytt tema</span>
     </button>
   );
 }

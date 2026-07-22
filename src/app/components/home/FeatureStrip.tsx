@@ -43,9 +43,7 @@ export default function FeatureStrip({
       <div className="mb-6">
         <div>
           <h2 className="site-heading text-2xl md:text-3xl">{title}</h2>
-          {subtitle ? (
-            <p className="site-copy mt-1">{subtitle}</p>
-          ) : null}
+          {subtitle ? <p className="site-copy mt-1">{subtitle}</p> : null}
         </div>
       </div>
 
@@ -60,6 +58,8 @@ export default function FeatureStrip({
               alt={featured.title}
               width={1200}
               height={675}
+              sizes="(max-width: 767px) 1px, (max-width: 1152px) 64vw, 720px"
+              quality={80}
               className="absolute inset-0 w-full h-full object-cover"
             />
           ) : (
@@ -99,6 +99,8 @@ export default function FeatureStrip({
                       alt={item.title}
                       width={700}
                       height={420}
+                      sizes="(max-width: 767px) 1px, (max-width: 1152px) 31vw, 350px"
+                      quality={80}
                       className="absolute inset-0 w-full h-full object-cover"
                     />
                   ) : (
@@ -169,6 +171,8 @@ export default function FeatureStrip({
               alt={featured.title}
               width={900}
               height={520}
+              sizes="(max-width: 767px) calc(100vw - 48px), 1px"
+              quality={80}
               className="w-full h-52 object-cover"
             />
           ) : null}

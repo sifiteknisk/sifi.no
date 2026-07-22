@@ -43,7 +43,7 @@ export default async function MerchDetailPage({
   const imageUrls: string[] =
     (merch.images as SanityImageSource[] | undefined)
       ?.map((image: SanityImageSource) =>
-        urlFor(image)?.width(550).height(310).url()
+        urlFor(image)?.width(1200).height(675).auto('format').quality(80).url()
       )
       .filter((imageUrl: string | undefined): imageUrl is string =>
         Boolean(imageUrl)
@@ -53,7 +53,7 @@ export default async function MerchDetailPage({
 
   return (
     <main className="w-full py-6 md:py-8">
-      <div className="surface-panel p-6 md:p-8">
+      <div className="px-1 py-2 sm:px-2">
         <Link href="/merch" className="hover:underline">
           ← Tilbake til merch
         </Link>
@@ -68,8 +68,11 @@ export default async function MerchDetailPage({
                         src={imageUrl}
                         alt={merch.title}
                         className="aspect-video rounded-xl object-cover"
-                        width={550}
-                        height={310}
+                        width={1200}
+                        height={675}
+                        sizes="(max-width: 1023px) calc(100vw - 48px), 520px"
+                        quality={80}
+                        priority={index === 0}
                       />
                     </div>
                   </CarouselItem>
@@ -79,15 +82,13 @@ export default async function MerchDetailPage({
               <CarouselNext className="right-2" />
             </Carousel>
           </div>
-          <div className="surface-card-soft p-5 md:p-6">
+          <div className="border-t border-blue-200/60 pt-6 dark:border-blue-300/15 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-2">
             <h1 className="site-heading text-pretty break-words text-3xl md:mb-2 md:text-4xl">
               {merch.title}
             </h1>
 
             {merch.description && (
-              <p className="site-copy mb-3">
-                {merch.description}
-              </p>
+              <p className="site-copy mb-3">{merch.description}</p>
             )}
 
             <p className="font-medium">På lager: {merch.stock ?? 'Ukjent'}</p>
