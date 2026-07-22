@@ -4,6 +4,8 @@ import './globals.css';
 import Navbar from './components/navbar';
 import Footer from './components/footer';
 import { ThemeProvider } from './components/theme-provider';
+import Background from './components/home/Background';
+import PageShell from './components/PageShell';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -45,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html lang="nb" suppressHydrationWarning={true}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
@@ -56,9 +58,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar></Navbar>
-          {children}
-          <Footer></Footer>
+          <Navbar />
+          <div className="relative pt-16 md:pt-20 min-h-screen overflow-hidden">
+            <Background />
+            <div className="relative z-10">
+              <PageShell>{children}</PageShell>
+            </div>
+          </div>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
