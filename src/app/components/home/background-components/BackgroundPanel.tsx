@@ -43,7 +43,7 @@ const BackgroundPanel = ({
           <>
             <span className="h-2 w-2 rounded-full bg-red-400/80" />
             <span className="h-2 w-2 rounded-full bg-yellow-300/80" />
-            <span className="h-2 w-2 rounded-full bg-emerald-400/80" />
+            <span className="h-2 w-2 rounded-full bg-blue-400/80" />
             <span className="ml-2">{title}</span>
           </>
         ) : (

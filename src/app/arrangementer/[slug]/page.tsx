@@ -9,7 +9,7 @@ import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { client } from '@/sanity/client';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
+import Image from '@/components/ui/skeleton-image';
 import {
   Carousel,
   CarouselContent,
@@ -51,7 +51,7 @@ export default async function PostPage({
       <div className="surface-panel p-6 md:p-8">
         <Link
           href="/arrangementer"
-          className="inline-block mb-4 text-blue-700 dark:text-sky-300 hover:underline"
+          className="site-link mb-4 inline-block"
         >
           ← Tilbake til arrangementer
         </Link>
@@ -80,10 +80,10 @@ export default async function PostPage({
         </div>
         {/* Title and info */}
         <div className="mb-8 flex flex-col items-center text-center">
-          <h1 className="text-3xl md:text-5xl font-bold mb-4">{post.title}</h1>
+          <h1 className="site-heading mb-4 text-3xl md:text-5xl">{post.title}</h1>
 
           <div className="flex flex-col md:flex-row md:items-center md:justify-center gap-2 md:gap-4 mb-4 text-base md:text-lg">
-            <p className="text-slate-700 dark:text-gray-300">
+            <p className="site-copy">
               Tidspunkt:{' '}
               {new Date(post.eventStart).toLocaleDateString('nb-NO', {
                 weekday: 'long',
@@ -95,7 +95,7 @@ export default async function PostPage({
                 timeZone: 'Europe/Oslo',
               })}
             </p>
-            <p className="text-slate-700 dark:text-gray-300">Sted: {post.place}</p>
+            <p className="site-copy">Sted: {post.place}</p>
           </div>
 
           {post.registrationButton?.url && (
@@ -120,7 +120,7 @@ export default async function PostPage({
                     link: ({ children, value }) => (
                       <a
                         href={value.href}
-                        className="text-blue-700 dark:text-sky-300 hover:underline"
+                        className="site-link"
                       >
                         {children}
                       </a>

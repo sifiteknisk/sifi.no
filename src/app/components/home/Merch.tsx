@@ -13,10 +13,13 @@ type MerchItem = {
 };
 
 const MERCH_QUERY = `
-  *[_type == "merch"] | order(_createdAt desc)
+  *[_type == "merch"] | order(_createdAt desc)[0...5] {
+    _id, title, slug, "images": images[0...1], description, stock
+  }
 `;
 
 const { projectId, dataset } = client.config();
+const MERCH_PLACEHOLDER_IMAGE = '/images/merch-placeholder.svg';
 const urlFor = (source: SanityImageSource) =>
   projectId && dataset
     ? imageUrlBuilder({ projectId, dataset }).image(source)
@@ -33,7 +36,7 @@ export default async function Merch() {
     {},
     { next: { revalidate: 30 } }
   );
-  const items = merchItems.slice(0, 5);
+  const items = merchItems;
 
   if (items.length === 0) {
     return (
@@ -53,7 +56,7 @@ export default async function Merch() {
 
   const featuredImageUrl = featured.images?.[0]
     ? urlFor(featured.images[0])?.width(1200).height(675).url()
-    : null;
+    : MERCH_PLACEHOLDER_IMAGE;
 
   return (
     <FeatureStrip
@@ -67,15 +70,20 @@ export default async function Merch() {
         id: featured._id,
         href: `/merch/${featured.slug?.current ?? ''}`,
         title: featured.title,
-        imageUrl: featuredImageUrl,
+        imageUrl: featuredImageUrl ?? MERCH_PLACEHOLDER_IMAGE,
         metaText: `Pa lager: ${featured.stock ?? 'Ukjent'}`,
-        description: featured.description ? shortText(featured.description) : undefined,
+        description: featured.description
+          ? shortText(featured.description)
+          : undefined,
       }}
       sideItems={sideItems.map((item) => ({
         id: item._id,
         href: `/merch/${item.slug?.current ?? ''}`,
         title: item.title,
-        imageUrl: item.images?.[0] ? urlFor(item.images[0])?.width(700).height(420).url() : null,
+        imageUrl: item.images?.[0]
+          ? (urlFor(item.images[0])?.width(700).height(420).url() ??
+            MERCH_PLACEHOLDER_IMAGE)
+          : MERCH_PLACEHOLDER_IMAGE,
         metaText: `Pa lager: ${item.stock ?? 'Ukjent'}`,
       }))}
       sideStyle="imageOverlay"

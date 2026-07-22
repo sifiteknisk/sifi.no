@@ -1,12 +1,13 @@
 import Link from 'next/link';
-import Image from 'next/image';
-import { type SanityDocument } from 'next-sanity';
+import Image from '@/components/ui/skeleton-image';
 import imageUrlBuilder from '@sanity/image-url';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { client } from '@/sanity/client';
 
 const ANNONSE_QUERY = `
-  *[_type == "stillingsannonse"] | order(eventStart desc)
+  *[_type == "stillingsannonse" && eventEnd > now()] | order(eventStart desc) {
+    _id, title, image, slug, eventStart
+  }
 `;
 
 const { projectId, dataset } = client.config();
@@ -29,47 +30,38 @@ type Post = {
 };
 
 async function AnnonsePage() {
-  const posts = await client.fetch<SanityDocument>(ANNONSE_QUERY, {}, options);
+  const posts = await client.fetch<Post[]>(ANNONSE_QUERY, {}, options);
 
   if (!posts || posts.length === 0) {
     return (
-      <div className="w-full py-6 md:py-8">
-        <div className="surface-panel p-7 md:p-10 text-center">
-          <p className="text-2xl font-semibold">Her var det tomt gitt!</p>
-          <p className="text-slate-700 dark:text-gray-300">
-            Følg med her for fremtidige stillingsannonser.
-          </p>
-        </div>
-      </div>
+      <section
+        aria-labelledby="empty-jobs-heading"
+        className="flex min-h-80 w-full flex-col items-center justify-center py-12 text-center md:min-h-96"
+      >
+        <h1
+          id="empty-jobs-heading"
+          className="site-heading flex flex-col items-center"
+        >
+          <span className="site-copy text-sm font-semibold uppercase tracking-[0.24em]">
+            Her var det
+          </span>
+          <span className="mt-1 text-5xl font-black leading-none tracking-[-0.06em] sm:text-6xl">
+            tomt gitt!
+          </span>
+        </h1>
+        <p className="site-copy mt-5 max-w-md text-base leading-7">
+          Følg med her for fremtidige stillingsannonser.
+        </p>
+      </section>
     );
   }
 
-  const today = new Date();
-  const filteredPosts =
-    posts?.filter((post: Post) => {
-      const eventEnd = new Date(post.eventEnd);
-      return eventEnd.getTime() > today.getTime();
-    }) || [];
-
-  // Viser riktig info når sanity ikke er tomt, men filtered
-  if (filteredPosts.length === 0) {
-    return (
-      <div className="w-full py-6 md:py-8">
-        <div className="surface-panel p-7 md:p-10 text-center">
-          <p className="text-2xl font-semibold">Her var det tomt gitt!</p>
-          <p className="text-slate-700 dark:text-gray-300">
-            Følg med her for fremtidige stillingsannonser.
-          </p>
-        </div>
-      </div>
-    );
-  }
   return (
     <div className="w-full py-6 md:py-8">
       <div className="surface-panel p-6 md:p-8">
-      <h1 className="text-3xl md:text-4xl font-bold mb-6">Stillingsannonser</h1>
+      <h1 className="site-heading mb-6 text-3xl md:text-4xl">Stillingsannonser</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredPosts.map((post: Post) => {
+        {posts.map((post) => {
           const postImageUrl = post.image
             ? urlFor(post.image)?.width(550).height(310).url()
             : null;
@@ -86,14 +78,15 @@ async function AnnonsePage() {
                     className="aspect-video rounded-xl mb-3"
                     width="550"
                     height="310"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 </Link>
               )}
               <Link href={`/stillingsannonser/${page_id}`}>
-                <h2 className="text-xl md:text-2xl font-bold mb-2">{post.title}</h2>
+                <h2 className="mb-2 text-xl font-bold tracking-tight md:text-2xl">{post.title}</h2>
               </Link>
 
-              <p className="text-sm text-gray-700 dark:text-gray-300">
+              <p className="site-copy text-sm">
                 Søknadsfrist:{' '}
                 {new Date(post.eventStart).toLocaleDateString('nb-NO', {
                   weekday: 'long',
@@ -113,11 +106,7 @@ async function AnnonsePage() {
 }
 
 const Stillingsannonser = () => {
-  return (
-    <div className="w-full">
-      <AnnonsePage />
-    </div>
-  );
+  return <AnnonsePage />;
 };
 
 export default Stillingsannonser;

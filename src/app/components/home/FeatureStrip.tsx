@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import Image from 'next/image';
-import ScrambledText from './ScrambledText';
+import Image from '@/components/ui/skeleton-image';
+import { ArrowRight } from 'lucide-react';
 
 type StripItem = {
   id: string;
@@ -20,7 +20,6 @@ type FeatureStripProps = {
   sideItems: StripItem[];
   placeholders: number;
   placeholderTitle: string;
-  scramblePlaceholderText?: boolean;
   sideStyle?: 'text' | 'imageOverlay';
   hideImageText?: boolean;
 };
@@ -34,7 +33,6 @@ export default function FeatureStrip({
   sideItems,
   placeholders,
   placeholderTitle,
-  scramblePlaceholderText = false,
   sideStyle = 'text',
   hideImageText = false,
 }: FeatureStripProps) {
@@ -42,20 +40,19 @@ export default function FeatureStrip({
 
   return (
     <section className="w-full max-w-6xl mx-auto px-6 py-10">
-      <div className="mb-6 flex items-start justify-between gap-4">
+      <div className="mb-6">
         <div>
-          <h2 className="text-2xl md:text-3xl font-bold">{title}</h2>
-          {subtitle ? <p className="text-slate-700 dark:text-gray-300 mt-1">{subtitle}</p> : null}
+          <h2 className="site-heading text-2xl md:text-3xl">{title}</h2>
+          {subtitle ? (
+            <p className="site-copy mt-1">{subtitle}</p>
+          ) : null}
         </div>
-        <Link href={viewAllHref} className="cta-pill shrink-0 md:hidden">
-          {viewAllLabel}
-        </Link>
       </div>
 
       <div className="hidden md:grid grid-cols-[2fr_1fr] gap-6">
         <Link
           href={featured.href}
-          className="group surface-card relative overflow-hidden hover:border-sky-500/60 dark:hover:border-sky-400/60 transition-colors min-h-[22rem]"
+          className="group surface-card relative min-h-[22rem] overflow-hidden transition-colors hover:border-blue-500/60 dark:hover:border-blue-400/60"
         >
           {featured.imageUrl ? (
             <Image
@@ -69,15 +66,19 @@ export default function FeatureStrip({
             <div className="absolute inset-0 bg-slate-200 dark:bg-slate-800" />
           )}
           {showImageText ? (
-            <div className="absolute inset-x-0 bottom-0 border-t border-blue-300/35 dark:border-blue-300/20 bg-white/75 dark:bg-slate-900/70 backdrop-blur-md p-6">
+            <div className="absolute inset-x-0 bottom-0 border-t border-blue-300/25 bg-white/85 p-6 backdrop-blur-md dark:border-blue-300/15 dark:bg-slate-950/80">
               {featured.metaText ? (
-                <p className="text-blue-700 dark:text-sky-300 text-sm mb-2">{featured.metaText}</p>
+                <p className="mb-2 text-sm text-blue-700 dark:text-blue-300">
+                  {featured.metaText}
+                </p>
               ) : null}
-              <h3 className="text-2xl font-semibold group-hover:text-blue-900 dark:group-hover:text-sky-200 transition-colors">
+              <h3 className="text-2xl font-semibold tracking-tight transition-colors group-hover:text-blue-800 dark:group-hover:text-blue-200">
                 {featured.title}
               </h3>
               {featured.description ? (
-                <p className="text-slate-700 dark:text-gray-300 mt-3">{featured.description}</p>
+                <p className="site-copy mt-3 leading-6">
+                  {featured.description}
+                </p>
               ) : null}
             </div>
           ) : null}
@@ -88,7 +89,7 @@ export default function FeatureStrip({
             <Link
               key={item.id}
               href={item.href}
-              className={`surface-card ${sideStyle === 'imageOverlay' ? 'relative overflow-hidden min-h-[10rem]' : 'p-4'} hover:border-sky-500/60 dark:hover:border-sky-400/60 transition-colors`}
+              className={`surface-card ${sideStyle === 'imageOverlay' ? 'relative overflow-hidden min-h-[10rem]' : 'p-4'} transition-colors hover:border-blue-500/60 dark:hover:border-blue-400/60`}
             >
               {sideStyle === 'imageOverlay' ? (
                 <>
@@ -104,9 +105,11 @@ export default function FeatureStrip({
                     <div className="absolute inset-0 bg-slate-200 dark:bg-slate-800" />
                   )}
                   {showImageText ? (
-                    <div className="absolute inset-x-0 bottom-0 border-t border-blue-300/35 dark:border-blue-300/20 bg-white/75 dark:bg-slate-900/70 backdrop-blur-md p-3">
+                    <div className="absolute inset-x-0 bottom-0 border-t border-blue-300/25 bg-white/85 p-3 backdrop-blur-md dark:border-blue-300/15 dark:bg-slate-950/80">
                       {item.metaText ? (
-                        <p className="text-blue-700 dark:text-sky-300 text-xs mb-1">{item.metaText}</p>
+                        <p className="mb-1 text-xs text-blue-700 dark:text-blue-300">
+                          {item.metaText}
+                        </p>
                       ) : null}
                       <h3 className="font-semibold">{item.title}</h3>
                     </div>
@@ -115,7 +118,9 @@ export default function FeatureStrip({
               ) : (
                 <>
                   {item.metaText ? (
-                    <p className="text-blue-700 dark:text-sky-300 text-xs mb-1">{item.metaText}</p>
+                    <p className="mb-1 text-xs text-blue-700 dark:text-blue-300">
+                      {item.metaText}
+                    </p>
                   ) : null}
                   <h3 className="font-semibold">{item.title}</h3>
                 </>
@@ -124,41 +129,73 @@ export default function FeatureStrip({
           ))}
 
           {Array.from({ length: placeholders }).map((_, index) => (
-            <div key={`${title.toLowerCase()}-placeholder-${index}`} className="surface-card-soft p-4">
-              <p className="text-blue-700/70 dark:text-sky-300/70 text-xs mb-1">Kommer snart</p>
-              {scramblePlaceholderText ? (
-                <h3 className="font-semibold text-slate-700/80 dark:text-gray-300/80">
-                  <ScrambledText text={placeholderTitle} />
-                </h3>
-              ) : (
-                <h3 className="font-semibold text-slate-700/80 dark:text-gray-300/80">{placeholderTitle}</h3>
-              )}
+            <div
+              key={`${title.toLowerCase()}-placeholder-${index}`}
+              className="surface-card-soft p-4"
+            >
+              <p className="mb-1 text-xs text-blue-700/70 dark:text-blue-300/70">
+                Kommer snart
+              </p>
+              <h3 className="font-semibold text-slate-700/80 dark:text-gray-300/80">
+                {placeholderTitle}
+              </h3>
             </div>
           ))}
 
           <Link
             href={viewAllHref}
-            className="group min-h-[8.5rem] rounded-xl border border-blue-500 bg-blue-600 hover:bg-blue-500 dark:border-sky-400 dark:bg-sky-500/90 dark:hover:bg-sky-400 transition-colors p-4 flex items-center justify-center"
+            className="group surface-card-soft flex min-h-[5.5rem] items-center justify-between gap-4 p-4 transition-colors hover:border-blue-500/60 dark:hover:border-blue-400/60"
           >
-            <h3 className="text-xl font-semibold text-white text-center">{viewAllLabel}</h3>
+            <div>
+              <p className="eyebrow mb-1">Utforsk</p>
+              <p className="font-semibold">{viewAllLabel}</p>
+            </div>
+            <ArrowRight
+              aria-hidden="true"
+              className="h-5 w-5 shrink-0 text-blue-600 transition-transform group-hover:translate-x-1 dark:text-blue-300"
+            />
           </Link>
-
         </div>
       </div>
 
-      <div className="md:hidden">
-        <Link href={featured.href} className="surface-card overflow-hidden block">
+      <div className="space-y-3 md:hidden">
+        <Link
+          href={featured.href}
+          className="surface-card overflow-hidden block"
+        >
           {featured.imageUrl ? (
-            <Image src={featured.imageUrl} alt={featured.title} width={900} height={520} className="w-full h-52 object-cover" />
+            <Image
+              src={featured.imageUrl}
+              alt={featured.title}
+              width={900}
+              height={520}
+              className="w-full h-52 object-cover"
+            />
           ) : null}
           {showImageText ? (
             <div className="p-4">
               {featured.metaText ? (
-                <p className="text-blue-700 dark:text-sky-300 text-xs mb-1">{featured.metaText}</p>
+                <p className="mb-1 text-xs text-blue-700 dark:text-blue-300">
+                  {featured.metaText}
+                </p>
               ) : null}
               <h3 className="font-semibold">{featured.title}</h3>
             </div>
           ) : null}
+        </Link>
+
+        <Link
+          href={viewAllHref}
+          className="group surface-card-soft flex min-h-[4.75rem] items-center justify-between gap-4 p-4 transition-colors hover:border-blue-500/60 dark:hover:border-blue-400/60"
+        >
+          <div>
+            <p className="eyebrow mb-1">Utforsk</p>
+            <p className="font-semibold">{viewAllLabel}</p>
+          </div>
+          <ArrowRight
+            aria-hidden="true"
+            className="h-5 w-5 shrink-0 text-blue-600 transition-transform group-hover:translate-x-1 dark:text-blue-300"
+          />
         </Link>
       </div>
     </section>

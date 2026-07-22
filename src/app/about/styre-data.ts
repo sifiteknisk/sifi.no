@@ -17,7 +17,7 @@ export const placeholderImage = '/images/spørsmål.png';
 
 export const boards: Record<number, BoardYear> = {
   2025: {
-    groupPhoto: styretImagePath(2025, 'Styret25ny.jpeg'),
+    groupPhoto: styretImagePath(2025, 'Styret25.jpeg'),
     members: [
       {
         name: 'Pernille Vannebo',

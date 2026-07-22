@@ -47,9 +47,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html lang="nb" suppressHydrationWarning={true}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-100 text-slate-900 dark:bg-[#030712] dark:text-white`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
         <ThemeProvider
@@ -58,14 +58,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar></Navbar>
+          <Navbar />
           <div className="relative pt-16 md:pt-20 min-h-screen overflow-hidden">
             <Background />
             <div className="relative z-10">
               <PageShell>{children}</PageShell>
             </div>
           </div>
-          <Footer></Footer>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

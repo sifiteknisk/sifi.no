@@ -1,23 +1,37 @@
 'use client';
 import * as React from 'react';
-import { Sun } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
-export default function ModeToggle() {
+type ModeToggleProps = {
+  className?: string;
+};
+
+export default function ModeToggle({ className }: ModeToggleProps) {
   const { setTheme, resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
 
   const toggleTheme = () => {
-    setTheme(resolvedTheme === 'light' ? 'dark' : 'light');
+    setTheme(isDark ? 'light' : 'dark');
   };
 
   return (
     <button
       type="button"
       onClick={toggleTheme}
-      className="inline-flex h-9 items-center gap-1 rounded-xl px-2 text-slate-700 transition-colors hover:text-blue-800 dark:text-slate-200 dark:hover:text-sky-200"
-      aria-label="Bytt tema"
+      className={cn(
+        'inline-flex h-9 w-9 items-center justify-center rounded-lg text-slate-700 transition-colors hover:bg-blue-100 hover:text-blue-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-blue-200 dark:focus-visible:ring-blue-300 dark:focus-visible:ring-offset-[#06101f]',
+        className
+      )}
+      aria-label={isDark ? 'Bruk lyst tema' : 'Bruk mørkt tema'}
+      aria-pressed={isDark}
     >
-      <Sun className="h-4 w-4" />
+      <Sun aria-hidden="true" className="h-[18px] w-[18px] dark:hidden" />
+      <Moon
+        aria-hidden="true"
+        className="hidden h-[18px] w-[18px] dark:block"
+      />
       <span className="sr-only">Bytt tema</span>
     </button>
   );

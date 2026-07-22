@@ -9,7 +9,7 @@ import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { client } from '@/sanity/client';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
+import Image from '@/components/ui/skeleton-image';
 
 const ANNONSE_QUERY = `*[_type == "stillingsannonse" && slug.current == $slug][0]`;
 
@@ -41,7 +41,7 @@ export default async function PostPage({
       <div className="w-full surface-panel p-6 md:p-8">
         <Link
           href="/stillingsannonser"
-          className="inline-block mb-4 text-blue-700 dark:text-sky-300 hover:underline"
+          className="site-link mb-4 inline-block"
         >
           ← Tilbake til stillingsannonser
         </Link>
@@ -69,7 +69,7 @@ export default async function PostPage({
               </a>
             )}
 
-            <p className="text-slate-700 dark:text-gray-300 text-sm italic">
+            <p className="site-copy text-sm italic">
               Søknadsfrist:{' '}
               {new Date(post.eventStart).toLocaleDateString('nb-NO', {
                 weekday: 'long',
@@ -81,7 +81,7 @@ export default async function PostPage({
             </p>
           </div>
           <div className="surface-card-soft prose dark:prose-invert p-5 md:p-6 text-left md:w-1/2">
-            <h1 className="text-3xl font-bold mb-6 not-prose">{post.title}</h1>
+            <h1 className="site-heading not-prose mb-6 text-3xl">{post.title}</h1>
 
             {Array.isArray(post.body) && (
               <PortableText
@@ -92,7 +92,7 @@ export default async function PostPage({
                       link: ({ children, value }) => (
                         <a
                           href={value.href}
-                          className="text-blue-700 dark:text-sky-300 hover:underline"
+                          className="site-link"
                         >
                           {children}
                         </a>

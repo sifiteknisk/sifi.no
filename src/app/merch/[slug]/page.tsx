@@ -4,7 +4,7 @@ import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { client } from '@/sanity/client';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
+import Image from '@/components/ui/skeleton-image';
 import {
   Carousel,
   CarouselContent,
@@ -22,6 +22,7 @@ const urlFor = (source: SanityImageSource) =>
     : null;
 
 const options = { next: { revalidate: 30 } };
+const MERCH_PLACEHOLDER_IMAGE = '/images/merch-placeholder.svg';
 
 export default async function MerchDetailPage({
   params,
@@ -39,10 +40,16 @@ export default async function MerchDetailPage({
     return notFound();
   }
 
-  const imageUrls =
-    merch.images?.map((image: SanityImageSource) =>
-      urlFor(image)?.width(550).height(310).url()
-    ) || [];
+  const imageUrls: string[] =
+    (merch.images as SanityImageSource[] | undefined)
+      ?.map((image: SanityImageSource) =>
+        urlFor(image)?.width(550).height(310).url()
+      )
+      .filter((imageUrl: string | undefined): imageUrl is string =>
+        Boolean(imageUrl)
+      ) || [];
+  const displayedImageUrls =
+    imageUrls.length > 0 ? imageUrls : [MERCH_PLACEHOLDER_IMAGE];
 
   return (
     <main className="w-full py-6 md:py-8">
@@ -54,18 +61,16 @@ export default async function MerchDetailPage({
           <div className="relative">
             <Carousel className="w-full px-0 m-0">
               <CarouselContent>
-                {Array.from({ length: imageUrls.length }).map((_, index) => (
+                {displayedImageUrls.map((imageUrl, index) => (
                   <CarouselItem key={index}>
                     <div className="p-1">
-                      {imageUrls && (
-                        <Image
-                          src={imageUrls[index]}
-                          alt={merch.title}
-                          className="aspect-video rounded-xl"
-                          width="550"
-                          height="310"
-                        />
-                      )}
+                      <Image
+                        src={imageUrl}
+                        alt={merch.title}
+                        className="aspect-video rounded-xl object-cover"
+                        width={550}
+                        height={310}
+                      />
                     </div>
                   </CarouselItem>
                 ))}
@@ -75,12 +80,12 @@ export default async function MerchDetailPage({
             </Carousel>
           </div>
           <div className="surface-card-soft p-5 md:p-6">
-            <h1 className="text-3xl md:text-4xl font-bold md:mb-2 text-pretty break-words">
+            <h1 className="site-heading text-pretty break-words text-3xl md:mb-2 md:text-4xl">
               {merch.title}
             </h1>
 
             {merch.description && (
-              <p className="mb-3 text-slate-700 dark:text-gray-300">
+              <p className="site-copy mb-3">
                 {merch.description}
               </p>
             )}
