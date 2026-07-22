@@ -18,16 +18,18 @@ export default function Home() {
                   <Image
                     src="/images/logo_full_utenbak.png"
                     alt="SIFI logo"
-                    width={560}
-                    height={220}
+                    width={1038}
+                    height={799}
+                    sizes="(max-width: 767px) min(100vw - 96px, 352px), 1px"
                     className="h-auto w-full max-w-[22rem] object-contain dark:hidden"
                     priority
                   />
                   <Image
                     src="/images/logo_full_utenbak_hvitskrift.png"
                     alt="SIFI logo"
-                    width={560}
-                    height={220}
+                    width={1038}
+                    height={799}
+                    sizes="(max-width: 767px) min(100vw - 96px, 352px), 1px"
                     className="hidden h-auto w-full max-w-[22rem] object-contain dark:block"
                     priority
                   />
@@ -61,16 +63,18 @@ export default function Home() {
                 <Image
                   src="/images/logo_full_utenbak.png"
                   alt="SIFI logo"
-                  width={560}
-                  height={220}
+                  width={1038}
+                  height={799}
+                  sizes="(max-width: 767px) 1px, 352px"
                   className="h-auto w-full max-w-[22rem] object-contain dark:hidden"
                   priority
                 />
                 <Image
                   src="/images/logo_full_utenbak_hvitskrift.png"
                   alt="SIFI logo"
-                  width={560}
-                  height={220}
+                  width={1038}
+                  height={799}
+                  sizes="(max-width: 767px) 1px, 352px"
                   className="hidden h-auto w-full max-w-[22rem] object-contain dark:block"
                   priority
                 />
@@ -87,7 +91,7 @@ export default function Home() {
         </Suspense>
         <PhotoStrip />
 
-        <section className="w-full max-w-6xl mx-auto px-6 py-12 pb-20">
+        <section className="w-full max-w-6xl mx-auto px-6 py-12">
           <h2 className="site-heading mb-4 text-2xl md:text-3xl">
             Samarbeidspartner
           </h2>
@@ -95,16 +99,18 @@ export default function Home() {
             <Image
               src="/images/mnemonic-logo.png"
               alt="Mnemonic"
-              width={240}
-              height={92}
-              className="object-contain dark:hidden"
+              width={600}
+              height={182}
+              sizes="240px"
+              className="h-auto w-60 object-contain dark:hidden"
             />
             <Image
               src="/images/mnemonic_logo_light.png"
               alt="Mnemonic"
-              width={240}
-              height={92}
-              className="hidden object-contain dark:block"
+              width={1500}
+              height={454}
+              sizes="240px"
+              className="hidden h-auto w-60 object-contain dark:block"
             />
             <div>
               <p className="site-copy max-w-2xl leading-7">

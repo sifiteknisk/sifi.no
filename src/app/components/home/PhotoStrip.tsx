@@ -1,9 +1,9 @@
 import FeatureStrip from './FeatureStrip';
 
 const photos = [
-  { src: '/images/PR/hacking.jpg', alt: 'SIFI PR bilde 1' },
-  { src: '/images/PR/qr.jpg', alt: 'SIFI PR bilde 2' },
-  { src: '/images/PR/scoreboard.jpg', alt: 'SIFI PR bilde 3' },
+  { src: '/images/PR/hacking.webp', alt: 'SIFI PR bilde 1' },
+  { src: '/images/PR/qr.webp', alt: 'SIFI PR bilde 2' },
+  { src: '/images/PR/scoreboard.webp', alt: 'SIFI PR bilde 3' },
 ];
 
 export default function PhotoStrip() {

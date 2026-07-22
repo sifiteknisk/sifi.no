@@ -3,6 +3,14 @@
 import Image, { type ImageProps } from 'next/image';
 import { useState } from 'react';
 
+function getSourceKey(src: ImageProps['src']) {
+  if (typeof src === 'string') {
+    return src;
+  }
+
+  return 'default' in src ? src.default.src : src.src;
+}
+
 export default function SkeletonImage({
   alt,
   className,
@@ -10,20 +18,26 @@ export default function SkeletonImage({
   onError,
   ...props
 }: ImageProps) {
-  const [isLoading, setIsLoading] = useState(true);
+  const sourceKey = getSourceKey(props.src);
+  const [loadedSource, setLoadedSource] = useState<string | null>(null);
+  const [failedSource, setFailedSource] = useState<string | null>(null);
+  const isLoading = loadedSource !== sourceKey && failedSource !== sourceKey;
 
   return (
     <Image
       {...props}
       alt={alt}
-      className={className}
+      className={['skeleton-image', className].filter(Boolean).join(' ')}
       data-loading={isLoading ? 'true' : 'false'}
+      data-load-error={failedSource === sourceKey ? 'true' : 'false'}
+      aria-busy={isLoading}
       onLoad={(event) => {
-        setIsLoading(false);
+        setLoadedSource(sourceKey);
+        setFailedSource(null);
         onLoad?.(event);
       }}
       onError={(event) => {
-        setIsLoading(false);
+        setFailedSource(sourceKey);
         onError?.(event);
       }}
     />

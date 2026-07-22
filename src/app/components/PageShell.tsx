@@ -16,7 +16,7 @@ export default function PageShell({ children }: PageShellProps) {
   }
 
   return (
-    <div className="px-4 pb-16 pt-7 md:px-8 md:pb-20 md:pt-10">
+    <div className="px-4 pb-10 pt-7 md:px-8 md:pb-12 md:pt-10">
       <div className="mx-auto max-w-6xl">{children}</div>
     </div>
   );

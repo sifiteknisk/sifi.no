@@ -59,7 +59,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navbar />
-          <div className="relative pt-16 md:pt-20 min-h-screen overflow-hidden">
+          <div className="relative min-h-screen overflow-hidden md:pt-20">
             <Background />
             <div className="relative z-10">
               <PageShell>{children}</PageShell>
