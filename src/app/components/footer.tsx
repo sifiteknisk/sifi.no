@@ -28,14 +28,14 @@ const socialLinks = [
 
 const Footer = () => {
   return (
-    <footer className="relative isolate w-full overflow-hidden border-t border-white/10 bg-[#03132e] pb-[calc(7rem+env(safe-area-inset-bottom))] pt-10 text-white md:pb-8 md:pt-12">
+    <footer className="site-footer relative isolate w-full overflow-hidden border-t border-white/10 bg-[#03132e] pt-10 text-white md:pt-12">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -right-32 -top-40 -z-10 h-[30rem] w-[30rem] rounded-full bg-blue-500/20 blur-3xl"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-56 -left-48 -z-10 h-[30rem] w-[30rem] rounded-full bg-cyan-400/10 blur-3xl"
+        className="site-footer-bottom-glow pointer-events-none absolute -left-48 -z-10 h-[30rem] w-[30rem] rounded-full bg-cyan-400/10 blur-3xl"
       />
 
       <div className="mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-6">

@@ -11,7 +11,7 @@ export default function Home() {
     <main className="relative -mt-16 md:-mt-20 pt-16 md:pt-20 min-h-screen">
       <div className="relative z-10">
         <section className="relative w-full max-w-6xl mx-auto px-6 pt-20 pb-10">
-          <div className="surface-panel p-8 md:p-12 shadow-md dark:shadow-none">
+          <div className="surface-panel p-8 shadow-none max-md:!border-transparent max-md:![background:none] max-md:!backdrop-blur-none md:p-12 md:shadow-md dark:shadow-none">
             <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr] gap-8 items-center">
               <div>
                 <div className="flex items-center justify-center md:hidden">
