@@ -33,11 +33,6 @@ const Footer = () => {
         aria-hidden="true"
         className="pointer-events-none absolute -right-32 -top-40 -z-10 h-[30rem] w-[30rem] rounded-full bg-blue-500/20 blur-3xl"
       />
-      <div
-        aria-hidden="true"
-        className="site-footer-bottom-glow pointer-events-none absolute -left-48 -z-10 h-[30rem] w-[30rem] rounded-full bg-cyan-400/10 blur-3xl"
-      />
-
       <div className="mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-6">
         <div className="grid gap-4 md:grid-cols-2">
           <div className="flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] p-3.5">

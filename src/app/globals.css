@@ -53,10 +53,6 @@ body {
   padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px));
 }
 
-.site-footer-bottom-glow {
-  bottom: calc(-14rem - env(safe-area-inset-bottom, 0px));
-}
-
 @media (min-width: 768px) {
   .site-footer {
     padding-bottom: 2rem;
