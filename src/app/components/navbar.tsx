@@ -203,7 +203,7 @@ const Navbar = () => {
 
       <nav
         aria-label="Mobilnavigasjon"
-        className="fixed inset-x-5 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-50 grid h-16 grid-cols-3 rounded-full border border-slate-200/80 bg-white/85 p-1.5 shadow-[0_14px_38px_-14px_rgba(15,23,42,0.5)] backdrop-blur-2xl md:hidden dark:border-slate-700/80 dark:bg-slate-950/85 dark:shadow-[0_14px_38px_-14px_rgba(0,0,0,0.95)]"
+        className="fixed inset-x-5 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-50 grid h-16 grid-cols-3 rounded-full border border-slate-200/80 bg-white/85 p-1.5 backdrop-blur-2xl md:hidden dark:border-slate-700/80 dark:bg-slate-950/85"
       >
         <Link
           href="/"
