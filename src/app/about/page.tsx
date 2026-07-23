@@ -24,7 +24,7 @@ const preloadCardImage = (src: string, sizes: string) => {
       alt: '',
       fill: true,
       sizes,
-      quality: 80,
+      unoptimized: true,
     });
     const preloadedImage = new window.Image();
 
@@ -140,7 +140,7 @@ const BoardMemberCard = ({
                     alt={member.name}
                     fill
                     sizes={imageSizes}
-                    quality={80}
+                    unoptimized
                     className={`object-cover transition-transform duration-500 ${imagePositionClass}`}
                   />
                 </div>
@@ -151,7 +151,7 @@ const BoardMemberCard = ({
                 alt={member.name}
                 fill
                 sizes={imageSizes}
-                quality={80}
+                unoptimized
                 className={`object-cover transition-transform duration-500 ${imagePositionClass}`}
               />
             )}
@@ -254,7 +254,7 @@ const PhotoLightbox = ({
                 alt={currentItem.label}
                 fill
                 sizes="100vw"
-                quality={90}
+                unoptimized
                 priority
                 className="object-contain"
               />
@@ -330,8 +330,8 @@ const About = () => {
   return (
     <main className="w-full py-6 md:py-8">
       <div className="px-1 py-2 sm:px-2">
-        <header className="grid gap-7 lg:grid-cols-[minmax(220px,0.65fr)_minmax(0,1.65fr)] lg:gap-12">
-          <div className="flex min-h-40 self-stretch lg:min-h-0">
+        <header className="grid gap-7 lg:grid-cols-[minmax(220px,0.65fr)_minmax(0,0.64fr)_minmax(0,1.01fr)] lg:items-center lg:gap-0">
+          <div className="flex min-h-40 self-stretch lg:min-h-0 lg:pr-7">
             <h1 className="site-heading flex min-h-40 flex-1 flex-col items-center justify-center text-center text-[clamp(3.5rem,14vw,4.75rem)] leading-[0.9] text-blue-800 dark:text-blue-100 lg:min-h-0">
               <span className="block">Hvem</span>
               <span className="block whitespace-nowrap text-blue-600 dark:text-blue-300">
@@ -340,8 +340,8 @@ const About = () => {
             </h1>
           </div>
 
-          <div className="site-copy grid gap-5 lg:grid-cols-[0.78fr_1.22fr] lg:gap-0">
-            <p className="about-copy hyphens-none text-base font-medium leading-7 text-slate-800 sm:text-[1.0625rem] sm:leading-8 dark:text-slate-200 lg:pr-7 lg:pt-8">
+          <div className="site-copy grid gap-5 lg:contents">
+            <p className="text-pretty text-base font-medium leading-7 text-slate-800 sm:text-[1.0625rem] sm:leading-8 dark:text-slate-200 lg:px-7 lg:text-right">
               SIFI, Sikkerhet på IFI, er linjeforeningen for
               Informasjonssikkerhet ved UiO, og alle studenter ved{' '}
               <a
@@ -352,7 +352,7 @@ const About = () => {
               </a>{' '}
               er automatisk medlemmer i foreningen.
             </p>
-            <p className="about-copy border-t border-blue-200/60 pt-5 text-base leading-7 sm:text-[1.0625rem] sm:leading-8 dark:border-blue-300/15 lg:border-l lg:border-t-0 lg:py-1 lg:pl-7">
+            <p className="text-pretty border-t border-blue-200/60 pt-5 text-base leading-7 sm:text-[1.0625rem] sm:leading-8 dark:border-blue-300/15 lg:border-l lg:border-t-0 lg:py-0 lg:pl-7">
               Vi arrangerer sosiale og faglige arrangement for å skape et godt
               miljø for våre medlemmer og andre interesserte studenter ved
               Institutt for Informatikk. Foreningen drives av frivillige og
@@ -423,7 +423,7 @@ const About = () => {
                   alt={`Styret ${selectedYear}`}
                   fill
                   sizes="(max-width: 1200px) 100vw, 1100px"
-                  quality={80}
+                  unoptimized
                   className={`object-cover ${
                     selectedYear === 2025
                       ? 'object-[center_20%]'

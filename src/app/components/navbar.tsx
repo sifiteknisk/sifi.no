@@ -92,12 +92,12 @@ const Navbar = () => {
   return (
     <header>
       <div className="fixed left-0 right-0 top-3 z-50 hidden px-4 md:block lg:px-6">
-        <div className="mx-auto max-w-6xl rounded-2xl border border-blue-300/35 bg-white/90 shadow-[0_14px_36px_-20px_rgba(15,45,90,0.48)] backdrop-blur-xl dark:border-blue-300/15 dark:bg-[#06101f]/90">
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-2xl border border-blue-300/35 bg-white/90 shadow-[0_14px_36px_-20px_rgba(15,45,90,0.48)] backdrop-blur-xl dark:border-blue-300/15 dark:bg-[#06101f]/90">
           <div className="h-16">
             <div className="h-full flex items-center gap-2 md:gap-0">
               <Link
                 href="/"
-                className={`flex h-full w-24 shrink-0 items-center justify-center rounded-l-xl pl-0.5 transition-colors ${
+                className={`flex h-full w-24 shrink-0 items-center justify-center pl-0.5 transition-colors ${
                   isHome
                     ? 'bg-blue-200/90 dark:bg-slate-700/90'
                     : 'hover:bg-blue-100/90 dark:hover:bg-slate-800/90'
@@ -135,7 +135,7 @@ const Navbar = () => {
               </nav>
 
               <div className="ml-auto flex h-full w-24 shrink-0">
-                <Darkmode className="h-full w-full rounded-l-none rounded-r-xl hover:bg-blue-100/90 dark:hover:bg-slate-800/90" />
+                <Darkmode className="h-full w-full rounded-none hover:bg-blue-100/90 dark:hover:bg-slate-800/90" />
               </div>
             </div>
           </div>
