@@ -28,11 +28,7 @@ const socialLinks = [
 
 const Footer = () => {
   return (
-    <footer className="site-footer relative isolate w-full overflow-hidden border-t border-white/10 bg-[#03132e] pt-10 text-white md:pt-12">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-32 -top-40 -z-10 h-[30rem] w-[30rem] rounded-full bg-blue-500/20 blur-3xl"
-      />
+    <footer className="site-footer w-full border-t border-white/10 bg-[#03132e] pt-10 text-white md:pt-12">
       <div className="mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-6">
         <div className="grid gap-4 md:grid-cols-2">
           <div className="flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] p-3.5">
